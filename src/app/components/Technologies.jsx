@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import FastAPI from "../../../public/technologies/fastapi.svg";
 import Javascript from "../../../public/technologies/javascript.svg";
-import Mongodb from "../../../public/technologies/mongodb_2.svg";
+import Mongodb from "../../../public/technologies/mongodb.svg";
 import Nodejs from "../../../public/technologies/nodejs.svg";
 import Postgresql from "../../../public/technologies/postgresql.svg";
 import Python from "../../../public/technologies/python.svg";
@@ -75,6 +75,7 @@ const technologies = () => {
                     className="flex flex-col items-center p-4 bg-base-200 rounded-lg"
                   >
                     <Image
+                      height={120}
                       src={data.image}
                       alt={data.title}
                       className="mb-2 cursor-pointer"

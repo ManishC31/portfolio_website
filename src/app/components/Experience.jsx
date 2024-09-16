@@ -57,9 +57,11 @@ const Experience = () => {
                   />
                 </svg>
               </div>
-              <div className="timeline-start mb-10 md:text-end tracking-wider text-pretty">
-                <time className="font-mono italic">August 2022 - Present</time>
-                <div className="text-2xl tracking-widest my-4 text-warning">
+              <div className="timeline-start mb-10 tracking-wider text-justify">
+                <p className="font-mono italic md:text-end">
+                  August 2022 - Present
+                </p>
+                <div className="text-2xl tracking-widest my-4 text-warning md:text-end">
                   Fullstack Developer
                 </div>
                 As a Full‐Stack Developer and IT Team Lead with 2 years of
@@ -74,8 +76,7 @@ const Experience = () => {
                 project goals within deadlines, fostering a collaborative and
                 efficient work environment.
                 <br />
-                <br />
-                <div className="badge badge-accent badge-outline mx-2">
+                <div className="badge badge-accent badge-outline mr-2 mt-2">
                   React
                 </div>
                 <div className="badge badge-accent badge-outline mx-2">
@@ -128,11 +129,11 @@ const Experience = () => {
                   />
                 </svg>
               </div>
-              <div className="timeline-end mb-10">
-                <time className="font-mono italic">
+              <div className="timeline-end mb-10 text-justify">
+                <p className="font-mono italic md:text-start">
                   October 2020 - December 2020
-                </time>
-                <div className="text-2xl tracking-widest my-4 text-warning">
+                </p>
+                <div className="text-2xl tracking-widest my-4 text-warning md:text-start">
                   Fullstack Developer Intern
                 </div>
                 Led the complete development and deployment of a
@@ -140,8 +141,7 @@ const Experience = () => {
                 using the Django frame‐ work with a PostgreSQL database, and
                 successfully deployed it on the Heroku platform.
                 <br />
-                <br />
-                <div className="badge badge-accent badge-outline mx-2">
+                <div className="badge badge-accent badge-outline mr-2 mt-2">
                   Python
                 </div>
                 <div className="badge badge-accent badge-outline mx-2">
@@ -179,9 +179,11 @@ const Experience = () => {
                   />
                 </svg>
               </div>
-              <div className="timeline-start mb-10 md:text-end">
-                <time className="font-mono italic">June 2019 - July 2019</time>
-                <div className="text-2xl tracking-widest my-4 text-warning">
+              <div className="timeline-start mb-10 text-justify">
+                <p className="font-mono italic md:text-end">
+                  June 2019 - July 2019
+                </p>
+                <div className="text-2xl tracking-widest my-4 text-warning md:text-end">
                   Summer Intern
                 </div>
                 Contributed to the IRClass Maritime app, a cross‐platform app
@@ -189,8 +191,7 @@ const Experience = () => {
                 V7, while integrating new features and enhancing the user
                 experience.
                 <br />
-                <br />
-                <div className="badge badge-accent badge-outline mx-2">
+                <div className="badge badge-accent badge-outline mr-2 mt-2">
                   Angular
                 </div>
                 <div className="badge badge-accent badge-outline mx-2">
