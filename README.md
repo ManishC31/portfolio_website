@@ -1,8 +1,13 @@
-# React + Vite
+# Aria Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a personal blog, portfolio, or blog template created for [Astro](https://astro.build).
 
-Currently, two official plugins are available:
+Astro port of [aria](https://github.com/static-templates/aria).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Aria Template Cover Photo](https://github.com/ccbikai/astro-aria/blob/main/public/assets/images/cover.png?raw=true)
+
+You can install this theme with the [Astro](https://astro.build) command like so:
+
+```js
+npm create astro@latest -- --template ccbikai/astro-aria
+```
