@@ -1,6 +1,18 @@
-import { ArrowRight, ExternalLink, Github, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import {
+  ArrowLeft,
+  ExternalLink,
+  Github,
+  Sparkles,
+  Calendar,
+  Clock,
+  Users,
+  Globe,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { StarBackground } from "@/components/StarBackground";
 
+// Import the same projects data
 const projects = [
   {
     id: 1,
@@ -56,6 +68,12 @@ const projects = [
     },
     usage:
       "Perfect for SaaS startups, tech companies, and digital agencies looking for a professional, conversion-optimized landing page.",
+    stats: {
+      developmentTime: "3 months",
+      teamSize: "2 developers",
+      users: "10K+ monthly visitors",
+      performance: "95+ Lighthouse score",
+    },
   },
   {
     id: 2,
@@ -117,6 +135,12 @@ const projects = [
     },
     usage:
       "Perfect for data-driven businesses, analytics teams, and organizations requiring comprehensive business intelligence and reporting capabilities.",
+    stats: {
+      developmentTime: "6 months",
+      teamSize: "4 developers",
+      users: "50K+ monthly users",
+      performance: "98+ Lighthouse score",
+    },
   },
   {
     id: 3,
@@ -184,129 +208,226 @@ const projects = [
     },
     usage:
       "Ideal for online retailers, dropshipping businesses, and anyone looking to establish a professional e-commerce presence with enterprise-level features.",
+    stats: {
+      developmentTime: "8 months",
+      teamSize: "6 developers",
+      users: "100K+ monthly users",
+      performance: "92+ Lighthouse score",
+    },
   },
 ];
 
-export const ProjectsSection = () => {
-  const navigate = useNavigate();
+export const ProjectDetail = () => {
+  const { id } = useParams();
+  const [project, setProject] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const openProject = (project) => {
-    navigate(`/project/${project.id}`);
-  };
+  useEffect(() => {
+    const foundProject = projects.find((p) => p.id === parseInt(id));
+    setProject(foundProject);
+    setIsLoading(false);
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
+            Project Not Found
+          </h1>
+          <Link to="/" className="text-primary hover:underline">
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <section id="projects" className="py-24 px-4 relative">
-      {/* Background decoration - theme-aware */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Background Effects */}
+      <StarBackground />
+
+      {/* Hero Section */}
+      <div className="relative h-96 overflow-hidden">
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
+
+        {/* Back Button */}
+        <div className="absolute top-6 left-6">
+          <Link
+            to="/"
+            className="group flex items-center space-x-2 px-4 py-2 glass-theme rounded-full hover:scale-105 transition-all duration-300"
+          >
+            <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span>Back to Portfolio</span>
+          </Link>
+        </div>
+
+        {/* Project Title */}
+        <div className="absolute bottom-8 left-8 right-8">
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.tags.map((tag, index) => (
+              <span
+                key={index}
+                className="px-3 py-1 text-sm font-medium glass-theme rounded-full"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
+            {project.title}
+          </h1>
+          <p className="text-xl text-white/90 max-w-3xl">
+            {project.longDescription}
+          </p>
+        </div>
       </div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Enhanced section header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 mb-4">
-            <Sparkles className="h-6 w-6 text-primary" />
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
-              Featured{" "}
-              <span className="bg-gradient-to-r from-primary via-purple-500 to-cyan-500 bg-clip-text text-transparent">
-                Projects
-              </span>
-            </h2>
-            <Sparkles className="h-6 w-6 text-primary" />
+      {/* Main Content */}
+      <div className="container mx-auto max-w-6xl px-6 py-16">
+        {/* Project Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          <div className="glass-theme p-6 rounded-2xl text-center">
+            <Calendar className="h-8 w-8 text-primary mx-auto mb-3" />
+            <div className="text-2xl font-bold text-foreground">
+              {project.stats.developmentTime}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Development Time
+            </div>
           </div>
-          <p className="text-xl text-muted-foreground/80 max-w-3xl mx-auto leading-relaxed">
-            Here are some of my recent projects. Each project was carefully
-            crafted with attention to detail, performance, and user experience.
+          <div className="glass-theme p-6 rounded-2xl text-center">
+            <Users className="h-8 w-8 text-purple-500 mx-auto mb-3" />
+            <div className="text-2xl font-bold text-foreground">
+              {project.stats.teamSize}
+            </div>
+            <div className="text-sm text-muted-foreground">Team Size</div>
+          </div>
+          <div className="glass-theme p-6 rounded-2xl text-center">
+            <Globe className="h-8 w-8 text-cyan-500 mx-auto mb-3" />
+            <div className="text-2xl font-bold text-foreground">
+              {project.stats.users}
+            </div>
+            <div className="text-sm text-muted-foreground">Monthly Users</div>
+          </div>
+          <div className="glass-theme p-6 rounded-2xl text-center">
+            <Clock className="h-8 w-8 text-green-500 mx-auto mb-3" />
+            <div className="text-2xl font-bold text-foreground">
+              {project.stats.performance}
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Performance Score
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Description */}
+        <div className="glass-theme p-8 rounded-2xl mb-16">
+          <div className="flex items-center space-x-3 mb-6">
+            <Sparkles className="h-6 w-6 text-primary" />
+            <h2 className="text-3xl font-bold text-foreground">
+              Project Overview
+            </h2>
+          </div>
+          <div className="prose prose-lg dark:prose-invert max-w-none">
+            <div className="whitespace-pre-line text-muted-foreground leading-relaxed">
+              {project.detailedDescription}
+            </div>
+          </div>
+        </div>
+
+        {/* Features Grid */}
+        <div className="glass-theme p-8 rounded-2xl mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
+            Key Features
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {project.features.map((feature, index) => (
+              <div
+                key={index}
+                className="text-center p-6 rounded-xl bg-gradient-to-br from-primary/10 to-purple-500/10 border border-primary/20 hover:scale-105 transition-all duration-300"
+              >
+                <div className="w-3 h-3 bg-primary rounded-full mx-auto mb-3"></div>
+                <span className="text-foreground font-medium">{feature}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Technology Stack */}
+        <div className="glass-theme p-8 rounded-2xl mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-8 text-center">
+            Technology Stack
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {Object.entries(project.techStack).map(
+              ([category, technologies]) => (
+                <div key={category} className="space-y-4">
+                  <h3 className="text-xl font-semibold text-foreground capitalize bg-gradient-to-r from-primary/20 to-purple-500/20 px-4 py-2 rounded-lg border border-primary/30">
+                    {category}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {technologies.map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-3 py-1 text-sm glass-theme rounded-md"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+
+        {/* Usage Section */}
+        <div className="glass-theme p-8 rounded-2xl mb-16">
+          <h2 className="text-3xl font-bold text-foreground mb-6 text-center">
+            Usage & Applications
+          </h2>
+          <p className="text-lg text-muted-foreground text-center leading-relaxed max-w-4xl mx-auto">
+            {project.usage}
           </p>
         </div>
 
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, key) => (
-            <div
-              key={key}
-              onClick={() => openProject(project)}
-              className="group relative bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 cursor-pointer"
-            >
-              {/* Glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
-
-              {/* Image container */}
-              <div className="relative h-64 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                {/* Overlay with project info */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6 z-20">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                    <p className="text-white/80 text-sm mb-3">
-                      {project.description}
-                    </p>
-                    <div className="flex space-x-3">
-                      <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                        <ExternalLink size={18} />
-                      </div>
-                      <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                        <Github size={18} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-6 relative z-10">
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary border border-primary/20 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Project title and description */}
-                <h3 className="text-xl font-bold mb-2 text-foreground">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm mb-4">
-                  {project.description}
-                </p>
-
-                {/* Click indicator */}
-                <div className="flex items-center text-primary text-sm font-medium">
-                  <span>Click to preview</span>
-                  <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Enhanced CTA */}
-        <div className="text-center mt-16">
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-6 justify-center">
           <a
-            className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary via-purple-600 to-cyan-600 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/25"
+            href={project.demoUrl}
             target="_blank"
-            href="https://github.com/manishc31"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-center space-x-3 px-8 py-4 bg-gradient-to-r from-primary to-purple-600 text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-cyan-600 opacity-100 group-hover:opacity-90 transition-opacity duration-500"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-            <span className="relative z-10 flex items-center space-x-3">
-              <span>Check My Github</span>
-              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
+            <ExternalLink size={20} />
+            <span>Live Preview</span>
+          </a>
+          <a
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-center space-x-3 px-8 py-4 glass-theme font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+          >
+            <Github size={20} />
+            <span>GitHub Repository</span>
           </a>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
