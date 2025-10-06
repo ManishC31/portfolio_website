@@ -1,209 +1,113 @@
-import { ArrowRight, ExternalLink, Github, Sparkles } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-
-const projects = [
-  {
-    id: 1,
-    title: "SaaS Landing Page",
-    description: "A beautiful landing page app using React and Tailwind.",
-    longDescription:
-      "A modern, responsive SaaS landing page built with React and Tailwind CSS. Features include smooth animations, dark mode support, and optimized performance. The design focuses on conversion optimization with clear call-to-actions and engaging visual elements.",
-    detailedDescription: `
-      This SaaS landing page represents a comprehensive solution for businesses looking to establish a strong online presence. Built with modern web technologies, it delivers exceptional user experience across all devices.
-
-      **Key Features:**
-      - Responsive design that adapts seamlessly to desktop, tablet, and mobile devices
-      - Dark mode support with smooth theme transitions
-      - Optimized performance with lazy loading and code splitting
-      - SEO-friendly structure with meta tags and semantic HTML
-      - Accessibility compliant with ARIA labels and keyboard navigation
-      - Contact form integration with validation and spam protection
-      - Analytics integration for tracking user behavior and conversions
-
-      **Technical Implementation:**
-      The project utilizes React 18 with hooks for state management and component lifecycle. Tailwind CSS provides utility-first styling with custom design tokens. The build process is optimized with Vite for fast development and production builds. The site includes comprehensive error boundaries and loading states for robust user experience.
-
-      **Performance Optimizations:**
-      - Image optimization with WebP format and responsive sizing
-      - CSS and JavaScript minification and compression
-      - Critical CSS inlining for above-the-fold content
-      - Service worker implementation for offline functionality
-      - CDN integration for global content delivery
-
-      **Usage:**
-      This landing page template can be easily customized for any SaaS business. Simply update the content, branding, and color scheme to match your business requirements. The modular component structure allows for easy maintenance and feature additions.
-    `,
-    image: "/projects/project1.png",
-    tags: ["React", "TailwindCSS", "Supabase"],
-    demoUrl: "#",
-    githubUrl: "#",
-    features: [
-      "Responsive Design",
-      "Dark Mode",
-      "Smooth Animations",
-      "SEO Optimized",
-    ],
-    techStack: {
-      frontend: [
-        "React 18",
-        "Tailwind CSS",
-        "Framer Motion",
-        "React Hook Form",
-      ],
-      backend: ["Supabase", "PostgreSQL", "Edge Functions"],
-      deployment: ["Vercel", "Cloudflare", "GitHub Actions"],
-      tools: ["Vite", "ESLint", "Prettier", "TypeScript"],
-    },
-    usage:
-      "Perfect for SaaS startups, tech companies, and digital agencies looking for a professional, conversion-optimized landing page.",
-  },
-  {
-    id: 2,
-    title: "Orbit Analytics Dashboard",
-    description:
-      "Interactive analytics dashboard with data visualization and filtering capabilities.",
-    longDescription:
-      "A comprehensive analytics dashboard that provides real-time data visualization using D3.js and TypeScript. Features interactive charts, customizable filters, and real-time data updates. Built with Next.js for optimal performance and SEO.",
-    detailedDescription: `
-      Orbit Analytics Dashboard is a powerful, enterprise-grade analytics platform designed to transform complex data into actionable insights. Built with cutting-edge technologies, it provides real-time monitoring, advanced data visualization, and comprehensive reporting capabilities.
-
-      **Core Functionality:**
-      - Real-time data streaming and processing with WebSocket connections
-      - Interactive data visualization using D3.js with custom chart components
-      - Advanced filtering and drill-down capabilities for detailed analysis
-      - Customizable dashboards with drag-and-drop widget placement
-      - Export functionality for reports in PDF, CSV, and Excel formats
-      - Role-based access control with granular permissions
-      - Multi-tenant architecture supporting multiple organizations
-
-      **Data Visualization Features:**
-      The dashboard includes over 20 different chart types including line charts, bar charts, pie charts, heatmaps, scatter plots, and custom visualizations. Each chart supports interactive features like zoom, pan, tooltips, and data point selection. The system also includes advanced features like anomaly detection, trend analysis, and predictive analytics.
-
-      **Technical Architecture:**
-      Built with Next.js 14 using the App Router for optimal performance and SEO. The frontend uses TypeScript for type safety and better development experience. D3.js handles complex data visualizations while React Query manages server state and caching. The backend API is built with Node.js and Express, with PostgreSQL as the primary database and Redis for caching.
-
-      **Performance Optimizations:**
-      - Server-side rendering for improved initial load times
-      - Code splitting and lazy loading for optimal bundle sizes
-      - Database query optimization with indexing and connection pooling
-      - CDN integration for static assets and API responses
-      - Progressive Web App features for offline functionality
-
-      **Usage:**
-      Ideal for businesses requiring comprehensive data analysis, including e-commerce platforms, SaaS applications, financial services, and marketing agencies. The dashboard can be integrated with various data sources including Google Analytics, Facebook Ads, Shopify, and custom APIs.
-    `,
-    image: "/projects/project2.png",
-    tags: ["TypeScript", "D3.js", "Next.js"],
-    demoUrl: "#",
-    githubUrl: "#",
-    features: [
-      "Real-time Data",
-      "Interactive Charts",
-      "Custom Filters",
-      "Performance Optimized",
-    ],
-    techStack: {
-      frontend: [
-        "Next.js 14",
-        "TypeScript",
-        "D3.js",
-        "React Query",
-        "Tailwind CSS",
-      ],
-      backend: ["Node.js", "Express", "PostgreSQL", "Redis"],
-      visualization: ["D3.js", "Chart.js", "Recharts", "Victory"],
-      deployment: ["Docker", "AWS", "Terraform", "GitHub Actions"],
-      tools: ["ESLint", "Prettier", "Jest", "Cypress"],
-    },
-    usage:
-      "Perfect for data-driven businesses, analytics teams, and organizations requiring comprehensive business intelligence and reporting capabilities.",
-  },
-  {
-    id: 3,
-    title: "E-commerce Platform",
-    description:
-      "Full-featured e-commerce platform with user authentication and payment processing.",
-    longDescription:
-      "A complete e-commerce solution with user authentication, product management, shopping cart functionality, and secure payment processing via Stripe. Built with React frontend and Node.js backend for scalability and performance.",
-    detailedDescription: `
-      A comprehensive e-commerce platform designed to handle the complete online shopping experience from product discovery to order fulfillment. This full-stack solution provides everything needed to run a successful online store with enterprise-level features and scalability.
-
-      **Core Features:**
-      - Advanced product catalog with categories, filters, and search functionality
-      - User authentication and authorization with social login options
-      - Shopping cart and wishlist management with persistent storage
-      - Secure payment processing with Stripe integration
-      - Order management and tracking system
-      - Inventory management with low stock alerts
-      - Customer review and rating system
-      - Email marketing integration with automated campaigns
-      - Multi-language and multi-currency support
-      - Mobile-responsive design with PWA capabilities
-
-      **User Experience:**
-      The platform features an intuitive user interface with advanced search capabilities including autocomplete, filters, and sorting options. The checkout process is optimized for conversion with guest checkout, saved payment methods, and order confirmation emails. The admin dashboard provides comprehensive analytics and management tools.
-
-      **Technical Implementation:**
-      Built with React for the frontend and Node.js/Express for the backend. The database uses MongoDB for flexibility and scalability. Redis handles session management and caching. The payment system integrates with Stripe for secure transactions. The platform includes comprehensive API documentation and SDK for third-party integrations.
-
-      **Security Features:**
-      - PCI DSS compliant payment processing
-      - JWT-based authentication with refresh tokens
-      - Rate limiting and DDoS protection
-      - Input validation and sanitization
-      - HTTPS enforcement and security headers
-      - Regular security audits and penetration testing
-
-      **Performance & Scalability:**
-      - Microservices architecture for horizontal scaling
-      - CDN integration for global content delivery
-      - Database sharding and read replicas
-      - Caching strategies with Redis and CDN
-      - Load balancing and auto-scaling capabilities
-      - Monitoring and alerting with comprehensive logging
-
-      **Usage:**
-      Suitable for small to large e-commerce businesses, dropshipping operations, and B2B/B2C marketplaces. The platform can handle thousands of products and millions of users with proper infrastructure scaling.
-    `,
-    image: "/projects/project3.png",
-    tags: ["React", "Node.js", "Stripe"],
-    demoUrl: "#",
-    githubUrl: "#",
-    features: [
-      "User Authentication",
-      "Payment Processing",
-      "Product Management",
-      "Shopping Cart",
-    ],
-    techStack: {
-      frontend: ["React", "Redux Toolkit", "React Router", "Styled Components"],
-      backend: ["Node.js", "Express", "MongoDB", "Redis"],
-      payment: ["Stripe", "PayPal", "Apple Pay", "Google Pay"],
-      deployment: ["Docker", "Kubernetes", "AWS", "Nginx"],
-      tools: ["Webpack", "Babel", "Jest", "Supertest"],
-    },
-    usage:
-      "Ideal for online retailers, dropshipping businesses, and anyone looking to establish a professional e-commerce presence with enterprise-level features.",
-  },
-];
+import { useState } from "react";
+import {
+  ArrowRight,
+  ExternalLink,
+  Github,
+  Sparkles,
+  X,
+  Code,
+  Zap,
+  Users,
+  Star,
+  ChevronRight,
+} from "lucide-react";
 
 export const ProjectsSection = () => {
-  const navigate = useNavigate();
+  const [selectedProject, setSelectedProject] = useState(null);
 
-  const openProject = (project) => {
-    navigate(`/project/${project.id}`);
-  };
+  const projects = [
+    {
+      id: 1,
+      title: "TaskMind AI",
+      description:
+        "AI-powered productivity platform that intelligently manages, prioritizes, and automates your daily tasks using generative AI.",
+      detailedDescription: `
+    <div class="space-y-4 text-muted-foreground leading-relaxed">
+  <p>
+    <strong>TaskMind AI</strong> is an intelligent task management web application built with <strong>Next.js</strong> and powered by <strong>AI</strong>. It combines modern task management with smart automation to help users create, organize, and prioritize tasks effortlessly.
+  </p>
+
+  <p>
+    Users can enter tasks in natural language — for example, <em>"Finish the client proposal by Friday"</em> — and the AI automatically identifies the task, sets deadlines, and assigns categories. The system provides intelligent suggestions for priorities, dependencies, and subtasks.
+  </p>
+
+  <p>
+    The interface, designed with <strong>Tailwind CSS</strong> and <strong>Shadcn UI</strong>, delivers a clean and responsive experience. With <strong>Framer Motion</strong> animations and built-in dark mode, the app ensures smooth performance and modern aesthetics across all devices.
+  </p>
+
+  <p>
+    On the backend, <strong>Next.js API routes</strong> and <strong>MongoDB</strong> power data storage, authentication, and synchronization for seamless productivity. 
+    <strong>TaskMind AI</strong> transforms daily task management into an intelligent, adaptive workflow that evolves with the user.
+  </p>
+</div>
+`,
+      image: "/projects/taskmindai.png",
+      tags: ["Next.js", "TypeScript", "AI", "TailwindCSS"],
+      demoUrl: "https://taskmind-ai.manishchavan.in",
+      githubUrl: "https://github.com/ManishC31/AI-Task-Manager",
+      features: [
+        "AI-Powered Task Creation",
+        "Natural Language Input",
+        "Priority Suggestions",
+        "Dark Mode Support",
+        "Responsive UI",
+        "Smooth Animations",
+      ],
+      techStack: {
+        frontend: ["NextJS", "Tailwind CSS", "Shadcn UI", "Framer Motion"],
+        backend: ["NextJS API Routes", "MongoDB"],
+        deployment: ["Vercel"],
+        language: ["TypeScript"],
+        aiIntegration: ["OpenAI API", "Natural Language Processing"],
+      },
+      usage:
+        "TaskMind AI can be used by individuals, students, and teams to plan projects, set smart goals, and let AI handle repetitive organization tasks. It's ideal for developers, freelancers, and professionals who want a personal productivity assistant that adapts to their workflow.",
+      underDevelopment: false,
+    },
+
+    {
+      id: 2,
+      title: "MindVista",
+      description:
+        "An online learning platform where teachers can create courses and students can enroll to learn from educators worldwide.",
+      image: "/projects/mindvista.png",
+      tags: ["React", "Javascript", "NodeJS", "TailwindCSS"],
+      demoUrl: "https://mindvista.manishchavan.in",
+      githubUrl: "https://github.com/ManishC31/AI-Task-Manager",
+      githubBackendUrl: "",
+      features: [
+        "Responsive UI",
+        "Course Creation and Management",
+        "Student Enrollment System",
+        "Instructor and Student Dashboards",
+        "Secure Authentication",
+        "Payment Integration",
+      ],
+      techStack: {
+        frontend: ["React", "Tailwind CSS"],
+        backend: ["NodeJS", "PostgreSQL"],
+        deployment: ["AWS"],
+        language: ["Javascript"],
+      },
+      usage:
+        "MindVista is an edtech platform where teachers can create and manage courses, and students can enroll and learn from educators around the world.",
+      underDevelopment: true,
+    },
+  ];
+
+  const openModal = (project) => setSelectedProject(project);
+  const closeModal = () => setSelectedProject(null);
 
   return (
     <section id="projects" className="py-24 px-4 relative">
-      {/* Background decoration - theme-aware */}
+      {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 dark:bg-primary/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/5 dark:bg-purple-500/10 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto max-w-6xl relative z-10">
-        {/* Enhanced section header */}
+        {/* Section header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center space-x-2 mb-4">
             <Sparkles className="h-6 w-6 text-primary" />
@@ -216,90 +120,124 @@ export const ProjectsSection = () => {
             <Sparkles className="h-6 w-6 text-primary" />
           </div>
           <p className="text-xl text-muted-foreground/80 max-w-3xl mx-auto leading-relaxed">
-            Here are some of my recent projects. Each project was carefully
-            crafted with attention to detail, performance, and user experience.
+            Here are some of my recent projects. Click on any to learn more.
           </p>
         </div>
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, key) => (
+          {projects.map((project) => (
             <div
-              key={key}
-              onClick={() => openProject(project)}
+              key={project.id}
+              onClick={() => openModal(project)}
               className="group relative bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 cursor-pointer"
             >
-              {/* Glow effect */}
+              {/* Gradient overlay on hover */}
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
 
-              {/* Image container */}
-              <div className="relative h-64 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+              {/* Under Development Badge */}
+              {project.underDevelopment && (
+                <div className="absolute top-3 left-3 z-20">
+                  <span className="px-3 py-1 text-xs font-medium bg-red-500 text-white rounded-full shadow-lg">
+                    Under Development
+                  </span>
+                </div>
+              )}
+
+              {/* Project image */}
+              <div className="relative h-48 overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                {/* Overlay with project info */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end p-6 z-20">
-                  <div className="text-white">
-                    <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                    <p className="text-white/80 text-sm mb-3">
-                      {project.description}
-                    </p>
-                    <div className="flex space-x-3">
-                      <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                        <ExternalLink size={18} />
-                      </div>
-                      <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
-                        <Github size={18} />
-                      </div>
-                    </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+                {/* Under Development Badge */}
+                {project.underDevelopment && (
+                  <div className="absolute top-3 left-3">
+                    <span className="px-2 py-1 text-xs font-medium bg-red-500/90 text-white rounded-full border border-red-400/50 backdrop-blur-sm">
+                      Under Development
+                    </span>
                   </div>
-                </div>
+                )}
               </div>
 
-              {/* Content */}
+              {/* Card content */}
               <div className="p-6 relative z-10">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, tagIndex) => (
+                  {project.tags.slice(0, 3).map((tag) => (
                     <span
-                      key={tagIndex}
+                      key={tag}
                       className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary border border-primary/20 rounded-full"
                     >
                       {tag}
                     </span>
                   ))}
+                  {project.tags.length > 3 && (
+                    <span className="px-3 py-1 text-xs font-medium bg-muted/50 text-muted-foreground border border-muted/30 rounded-full">
+                      +{project.tags.length - 3} more
+                    </span>
+                  )}
                 </div>
 
-                {/* Project title and description */}
-                <h3 className="text-xl font-bold mb-2 text-foreground">
+                {/* Title and description */}
+                <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-primary transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-muted-foreground text-sm mb-4">
+                <p className="text-muted-foreground text-sm mb-4 line-clamp-3 leading-relaxed">
                   {project.description}
                 </p>
 
-                {/* Click indicator */}
-                <div className="flex items-center text-primary text-sm font-medium">
-                  <span>Click to preview</span>
-                  <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                {/* Features preview */}
+                <div className="mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="h-4 w-4 text-primary" />
+                    <span className="text-sm font-medium text-foreground">
+                      Key Features
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {project.features.slice(0, 2).map((feature) => (
+                      <span
+                        key={feature}
+                        className="px-2 py-1 text-xs bg-muted/30 text-muted-foreground rounded-md"
+                      >
+                        {feature}
+                      </span>
+                    ))}
+                    {project.features.length > 2 && (
+                      <span className="px-2 py-1 text-xs bg-muted/30 text-muted-foreground rounded-md">
+                        +{project.features.length - 2} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center text-primary text-sm font-medium">
+                    <span>View Details</span>
+                    <ArrowRight className="h-4 w-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Star className="h-3 w-3 fill-current" />
+                    <span>Featured</span>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Enhanced CTA */}
+        {/* CTA */}
         <div className="text-center mt-16">
           <a
             className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary via-purple-600 to-cyan-600 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/25"
             target="_blank"
             href="https://github.com/manishc31"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-cyan-600 opacity-100 group-hover:opacity-90 transition-opacity duration-500"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             <span className="relative z-10 flex items-center space-x-3">
               <span>Check My Github</span>
               <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
@@ -307,6 +245,144 @@ export const ProjectsSection = () => {
           </a>
         </div>
       </div>
+
+      {/* Enhanced Modal */}
+      {selectedProject && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center backdrop-blur-md p-3">
+          <div className="relative bg-background rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-hidden border border-white/10 shadow-2xl">
+            {/* Modal Header */}
+            <div className="relative h-80 md:h-96 overflow-hidden">
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+
+              {/* Close button */}
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 p-2 bg-white/20 backdrop-blur-sm rounded-full border border-white/30 hover:bg-white/30 transition-colors text-white"
+              >
+                <X size={20} />
+              </button>
+
+              {/* Header content */}
+              <div className="absolute bottom-6 left-6 right-6">
+                <div className="flex items-center gap-3 mb-3">
+                  {selectedProject.demoUrl && (
+                    <a
+                      href={selectedProject.demoUrl}
+                      target="_blank"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-primary/90 transition-colors"
+                    >
+                      <ExternalLink size={16} /> Live Demo
+                    </a>
+                  )}
+                  {selectedProject.githubUrl && (
+                    <a
+                      href={selectedProject.githubUrl}
+                      target="_blank"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-full text-xs font-medium hover:bg-white/30 transition-colors border border-white/30"
+                    >
+                      <Github size={16} /> GitHub
+                    </a>
+                  )}
+                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-1">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-white/80 text-sm md:text-base leading-relaxed">
+                  {selectedProject.description}
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 md:p-8 overflow-y-auto max-h-[calc(92vh-20rem)]">
+              {/* Description */}
+              {/* <div className="mb-8">
+                <h4 className="text-lg md:text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                  <Code className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                  About This Project
+                </h4>
+                <div
+                  className="prose prose-xs md:prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{
+                    __html: selectedProject.detailedDescription,
+                  }}
+                />
+              </div> */}
+
+              {/* Features */}
+              <div className="mb-8">
+                <h4 className="text-lg md:text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                  <Zap className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                  Key Features
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+                  {selectedProject.features.map((feature, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 p-3 md:p-4 bg-gradient-to-r from-muted/20 to-muted/10 rounded-xl border border-muted/30 hover:border-primary/30 transition-all duration-300 hover:shadow-md"
+                    >
+                      <div className="flex-shrink-0 w-2 h-2 bg-primary rounded-full"></div>
+                      <span className="text-xs md:text-sm font-medium text-foreground">
+                        {feature}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tech Stack */}
+              <div className="mb-8">
+                <h4 className="text-lg md:text-xl font-semibold mb-4 md:mb-6 text-foreground flex items-center gap-2">
+                  <Code className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                  Technology Stack
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  {Object.entries(selectedProject.techStack).map(
+                    ([category, technologies]) => (
+                      <div key={category} className="space-y-2 md:space-y-3">
+                        <div className="flex items-center gap-2 mb-2 md:mb-3">
+                          <div className="w-1 h-5 md:h-6 bg-gradient-to-b from-primary to-purple-500 rounded-full"></div>
+                          <h5 className="font-semibold text-foreground capitalize text-xs md:text-sm">
+                            {category.replace(/([A-Z])/g, " $1").trim()}
+                          </h5>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5 md:gap-2">
+                          {technologies.map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2.5 py-1 text-[10px] md:text-xs font-medium bg-gradient-to-r from-primary/10 to-purple-500/10 text-primary border border-primary/20 rounded-full hover:bg-primary/20 transition-colors duration-200"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Usage */}
+              <div className="mb-12">
+                <h4 className="text-lg md:text-xl font-semibold mb-3 text-foreground flex items-center gap-2">
+                  <Users className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+                  Use Cases
+                </h4>
+                <div className="p-4 md:p-6 bg-gradient-to-r from-muted/10 via-muted/20 to-muted/10 rounded-xl border border-muted/30 backdrop-blur-sm">
+                  <p className="text-muted-foreground leading-relaxed text-xs md:text-sm">
+                    {selectedProject.usage}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

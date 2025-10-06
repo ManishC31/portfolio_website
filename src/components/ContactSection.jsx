@@ -142,7 +142,7 @@ export const ContactSection = () => {
                           Location
                         </h4>
                         <span className="text-muted-foreground/80 text-lg">
-                          Mumbai, Maharashtra, India
+                          Koblenz, Germany
                         </span>
                       </div>
                     </div>
