@@ -6,9 +6,9 @@ const experiences = [
     name: "Full-stack Developer",
     company: "Assesshub",
     description:
-      "Working as a full-stack developer with 3 years of experience in building web applications. Responsible for both front-end and back-end development. Led multiple projects from start to finish, ensuring smooth delivery and performance. Created several applications aimed at solving real-world problems and improving user experience.",
+      "Experienced full-stack developer with 3+ years in designing, developing, and delivering end-to-end web applications. Led multiple projects from conception to deployment, ensuring high performance, scalability, and exceptional user experience. Developed solutions that address real-world challenges and drive measurable results.",
     start: "August 2022",
-    end: "Present",
+    end: "August 2025",
   },
   {
     name: "Full-stack Developer Intern",
