@@ -54,7 +54,7 @@ export const ContactSection = () => {
     {
       name: "Twitter",
       icon: Twitter,
-      url: "#",
+      url: "https://x.com/ManishC31",
       color: "text-sky-500",
       bgColor: "bg-sky-500/20",
       borderColor: "border-sky-500/30",
@@ -62,7 +62,7 @@ export const ContactSection = () => {
     {
       name: "Instagram",
       icon: Instagram,
-      url: "#",
+      url: "https://www.instagram.com/manish.chavan.31",
       color: "text-pink-500",
       bgColor: "bg-pink-500/20",
       borderColor: "border-pink-500/30",
