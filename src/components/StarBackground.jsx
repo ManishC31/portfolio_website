@@ -7,7 +7,7 @@ export const StarBackground = () => {
 
   useEffect(() => {
     generateStars();
-    generateMeteors();
+    // generateMeteors(); // disabled to remove traveling blue line effect
     generateNebulas();
 
     const handleResize = () => {
@@ -42,24 +42,24 @@ export const StarBackground = () => {
     setStars(newStars);
   };
 
-  const generateMeteors = () => {
-    const numberOfMeteors = 6;
-    const newMeteors = [];
-
-    for (let i = 0; i < numberOfMeteors; i++) {
-      newMeteors.push({
-        id: i,
-        size: Math.random() * 3 + 1,
-        x: Math.random() * 100,
-        y: Math.random() * 30,
-        delay: Math.random() * 20,
-        animationDuration: Math.random() * 4 + 4,
-        color: Math.random() > 0.5 ? "primary" : "cyan",
-      });
-    }
-
-    setMeteors(newMeteors);
-  };
+  // const generateMeteors = () => {
+  //   const numberOfMeteors = 6;
+  //   const newMeteors = [];
+  //
+  //   for (let i = 0; i < numberOfMeteors; i++) {
+  //     newMeteors.push({
+  //       id: i,
+  //       size: Math.random() * 3 + 1,
+  //       x: Math.random() * 100,
+  //       y: Math.random() * 30,
+  //       delay: Math.random() * 20,
+  //       animationDuration: Math.random() * 4 + 4,
+  //       color: Math.random() > 0.5 ? "primary" : "cyan",
+  //     });
+  //   }
+  //
+  //   setMeteors(newMeteors);
+  // };
 
   const generateNebulas = () => {
     const numberOfNebulas = 3;
@@ -121,25 +121,7 @@ export const StarBackground = () => {
         />
       ))}
 
-      {/* Meteors */}
-      {meteors.map((meteor) => (
-        <div
-          key={`meteor-${meteor.id}`}
-          className="meteor animate-meteor"
-          style={{
-            width: meteor.size * 60 + "px",
-            height: meteor.size * 2 + "px",
-            left: meteor.x + "%",
-            top: meteor.y + "%",
-            animationDelay: meteor.delay + "s",
-            animationDuration: meteor.animationDuration + "s",
-            background: `linear-gradient(90deg, hsl(var(--${meteor.color})) 0%, hsl(var(--${meteor.color}) / 0.8) 50%, transparent 100%)`,
-            boxShadow: `0 0 ${meteor.size * 10}px ${
-              meteor.size * 2
-            }px hsl(var(--${meteor.color}) / 0.6)`,
-          }}
-        />
-      ))}
+      {/* Meteors removed */}
 
       {/* Ambient light effects - theme-aware */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-transparent via-transparent to-background/10 dark:to-background/20"></div>
