@@ -64,13 +64,13 @@ export const HeroSection = () => {
           {/* CTA Button with enhanced effects */}
           <div className="pt-8 opacity-0 animate-fade-in-delay-4">
             <a
-              href="#projects"
+              href="#blog"
               className="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary via-purple-600 to-cyan-600 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-primary/25"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-primary via-purple-600 to-cyan-600 opacity-100 group-hover:opacity-90 transition-opacity duration-500"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-purple-600 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <span className="relative z-10 flex items-center space-x-2">
-                <span>View My Work</span>
+                <span>Read my Blogs</span>
                 <ArrowDown className="h-5 w-5 transition-transform duration-300 group-hover:translate-y-1" />
               </span>
             </a>

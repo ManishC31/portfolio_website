@@ -79,8 +79,8 @@ export const AboutSection = () => {
               </a>
 
               <a
-                href="/manish_chavan_masters_student.pdf"
-                download="manish_chavan_masters_student.pdf"
+                href="/manish_chavan_cv.pdf"
+                download="manish_chavan_cv.pdf"
                 className="group relative inline-flex items-center justify-center px-6 py-3 text-primary border-2 border-primary rounded-full overflow-hidden transition-all duration-500 hover:bg-primary hover:text-white hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
               >
                 <span className="relative z-10 flex items-center space-x-2">
