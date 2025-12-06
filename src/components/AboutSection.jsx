@@ -158,13 +158,13 @@ export const AboutSection = () => {
                 Years Experience
               </div>
             </div>
-            <div className="w-px h-12 bg-border"></div>
+            {/* <div className="w-px h-12 bg-border"></div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-500">50+</div>
               <div className="text-sm text-muted-foreground">
                 Projects Completed
               </div>
-            </div>
+            </div> */}
             <div className="w-px h-12 bg-border"></div>
             <div className="text-center">
               <div className="text-3xl font-bold text-cyan-500">15+</div>
