@@ -27,13 +27,13 @@ const socials = [
     icon: <Linkedin size={22} />,
     label: "LinkedIn",
     handle: "Manish Chavan",
-    href: "https://linkedin.com/in/manish-chavan-58676019a",
+    href: "https://www.linkedin.com/in/manish-chavan-58676019a/",
   },
   {
     icon: <Twitter size={22} />,
     label: "X / Twitter",
     handle: "@manishchavan",
-    href: "https://twitter.com/manishchavan",
+    href: "https://twitter.com/ManishC31",
   },
 ];
 
@@ -52,8 +52,8 @@ const Contact = () => {
             Get in <span className="neon-text">Touch</span>
           </h2>
           <p className="section-subtitle">
-            Whether it's a Werkstudent opportunity, an open-source collab, or just a nerdy
-            conversation about AI — I'd love to hear from you.
+            Whether it's a Werkstudent opportunity, an open-source collab, or
+            just a nerdy conversation about AI — I'd love to hear from you.
           </p>
         </motion.div>
 
@@ -72,7 +72,9 @@ const Contact = () => {
                 {item.icon}
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">{item.label}</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  {item.label}
+                </p>
                 {item.href ? (
                   <a
                     href={item.href}
@@ -96,8 +98,12 @@ const Contact = () => {
             className="card-futuristic"
           >
             <p className="text-sm text-muted-foreground mb-1">Currently</p>
-            <p className="text-foreground font-medium">M.Sc. Web & Data Science</p>
-            <p className="text-sm text-muted-foreground mt-1">Universität Koblenz · Open to Werkstudent roles</p>
+            <p className="text-foreground font-medium">
+              M.Sc. Web & Data Science
+            </p>
+            <p className="text-sm text-muted-foreground mt-1">
+              Universität Koblenz · Open to Werkstudent roles
+            </p>
           </motion.div>
         </div>
 
@@ -132,7 +138,9 @@ const Contact = () => {
       {/* Footer */}
       <div className="section-container mt-24 pt-8 border-t border-border">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
-          <p>© {new Date().getFullYear()} Manish Chavan. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Manish Chavan. All rights reserved.
+          </p>
           <p>Built with React & Tailwind CSS</p>
         </div>
       </div>
