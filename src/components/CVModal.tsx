@@ -46,7 +46,7 @@ const CVModal = ({ isOpen, onClose }: CVModalProps) => {
               </h3>
               <div className="flex items-center gap-3">
                 <a
-                  href="/Manish_Chavan_CV.pdf"
+                  href="https://manishchavan.in/manish_chavan_cv.pdf"
                   download="Manish_Chavan_CV.pdf"
                   className="btn-primary-glow !py-2 !px-4 !text-sm flex items-center gap-2"
                 >
@@ -64,7 +64,7 @@ const CVModal = ({ isOpen, onClose }: CVModalProps) => {
             {/* PDF Viewer */}
             <div className="flex-1 overflow-auto flex flex-col items-center bg-muted/30 p-4 gap-4">
               <Document
-                file="/Manish_Chavan_CV.pdf"
+                file="https://manishchavan.in/manish_chavan_cv.pdf"
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={
                   <div className="flex items-center justify-center h-full text-muted-foreground">
