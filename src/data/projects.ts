@@ -77,17 +77,30 @@ export const projects: Project[] = [
   {
     id: "expression-music-recommendation",
     title: "Emotion-Based Music Recommender",
-    shortDescription: "Flutter app that reads your facial expression via CNN and queues up music to match your mood — in real-time.",
+    shortDescription:
+      "Flutter app that reads your facial expression via CNN and queues up music to match your mood — in real-time.",
     description:
       "Built an Android app using Flutter that integrates a CNN-based facial expression recognition model. The system performs real-time emotion detection through the device camera and maps detected moods to curated playlists. Published research on the underlying model in IRJET 2021.",
     problemStatement:
       "Music selection doesn't adapt to how you're actually feeling. Manual playlist curation is slow — what if your phone could just read the room (or your face)?",
     architecture:
       "Flutter frontend with TensorFlow Lite for on-device inference. The CNN was trained on the FER2013 dataset and quantized for mobile. A recommendation engine maps 7 emotion categories to curated Spotify playlists via API.",
-    techStack: ["Flutter", "TensorFlow Lite", "CNN", "Python", "Computer Vision", "Firebase"],
+    techStack: [
+      "Flutter",
+      "TensorFlow Lite",
+      "CNN",
+      "Python",
+      "Computer Vision",
+      "Firebase",
+    ],
     category: "Machine Learning & AI",
-    githubLink: "https://github.com/ManishC31/flutterfer",
+    githubLink: "https://github.com/ManishC31/flutter_fer",
   },
 ];
 
-export const categories = ["All", "Generative AI", "Full Stack", "Machine Learning & AI"] as const;
+export const categories = [
+  "All",
+  "Generative AI",
+  "Full Stack",
+  "Machine Learning & AI",
+] as const;
