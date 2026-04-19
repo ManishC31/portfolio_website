@@ -32,7 +32,7 @@ const socials = [
   {
     icon: <Twitter size={22} />,
     label: "X / Twitter",
-    handle: "@manishchavan",
+    handle: "@ManishC31",
     href: "https://twitter.com/ManishC31",
   },
 ];
