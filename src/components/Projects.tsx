@@ -87,13 +87,22 @@ const Projects = () => {
                       <ExternalLink size={14} /> Visit Live
                     </a>
                   )}
-                  {project.githubLink && (
-                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-300">
-                      <Github size={18} />
-                    </a>
-                  )}
+                  {project.githubLinks
+                    ? project.githubLinks.map((link) => (
+                        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          title={link.label}
+                          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors duration-300">
+                          <Github size={16} /> {link.label}
+                        </a>
+                      ))
+                    : project.githubLink && (
+                        <a href={project.githubLink} target="_blank" rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="text-muted-foreground hover:text-primary transition-colors duration-300">
+                          <Github size={18} />
+                        </a>
+                      )}
                 </div>
               </motion.div>
             ))}

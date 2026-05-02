@@ -8,6 +8,7 @@ export interface Project {
   techStack: string[];
   category: "Generative AI" | "Full Stack" | "Machine Learning & AI";
   githubLink?: string;
+  githubLinks?: { label: string; url: string }[];
   liveLink?: string;
   image?: string;
 }
@@ -74,6 +75,34 @@ export const projects: Project[] = [
   //   category: "Full Stack",
   //   githubLink: "https://github.com/ManishC31",
   // },
+  {
+    id: "lumochat",
+    title: "LumoChat",
+    shortDescription:
+      "A full-stack real-time chat app with JWT auth, Socket.io messaging, typing indicators and Cloudinary media uploads.",
+    description:
+      "LumoChat is a real-time messaging app I built with React and TypeScript on the frontend and Express/Node.js on the backend. It supports live typing indicators, online presence, lazy-loaded message pagination and a media gallery for images, videos and audio. Auth is handled with JWT stored in HTTP-only cookies.",
+    problemStatement:
+      "Most chat projects are just demos that never see production. I wanted to build something complete enough to actually ship, with proper auth, file uploads and the kind of UX details that make it feel like a real app.",
+    architecture:
+      "The frontend is built with React 18 and Vite, using Socket.io for real-time events and TanStack Query for server state. The backend runs on Express 5 with Socket.io, PostgreSQL for storage and Cloudinary for media. Files get compressed with Sharp before upload. The two services are deployed separately on their own subdomains.",
+    techStack: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "Socket.io",
+      "PostgreSQL",
+      "Cloudinary",
+      "Tailwind CSS",
+    ],
+    category: "Full Stack",
+    githubLinks: [
+      { label: "Frontend", url: "https://github.com/ManishC31/lumochat_frontend" },
+      { label: "Backend", url: "https://github.com/ManishC31/lumochat_backend" },
+    ],
+    liveLink: "https://lumochat-app.manishchavan.in",
+  },
   {
     id: "expression-music-recommendation",
     title: "Emotion-Based Music Recommender",

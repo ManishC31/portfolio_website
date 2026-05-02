@@ -54,11 +54,17 @@ const ProjectDetails = () => {
                   <Globe size={16} /> Visit Live Application
                 </a>
               )}
-              {project.githubLink && (
-                <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="btn-outline-glow flex items-center gap-2 !text-sm">
-                  <Github size={16} /> View Source
-                </a>
-              )}
+              {project.githubLinks
+                ? project.githubLinks.map((link) => (
+                    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn-outline-glow flex items-center gap-2 !text-sm">
+                      <Github size={16} /> {link.label}
+                    </a>
+                  ))
+                : project.githubLink && (
+                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="btn-outline-glow flex items-center gap-2 !text-sm">
+                      <Github size={16} /> View Source
+                    </a>
+                  )}
             </div>
           </motion.div>
 
