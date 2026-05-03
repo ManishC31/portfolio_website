@@ -110,6 +110,21 @@ const ProjectDetails = () => {
                 <h3 className="font-display font-semibold mb-4">Category</h3>
                 <span className="skill-tag">{project.category}</span>
               </div>
+
+              {project.testCredentials && (
+                <div className="card-futuristic">
+                  <h3 className="font-display font-semibold mb-4">Test Credentials</h3>
+                  <div className="space-y-4">
+                    {project.testCredentials.map((cred, i) => (
+                      <div key={i} className="text-sm space-y-1">
+                        <p className="text-muted-foreground">User {i + 1}</p>
+                        <p className="font-mono text-xs break-all">{cred.username}</p>
+                        <p className="font-mono text-xs">{cred.password}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </motion.div>
           </div>
         </div>

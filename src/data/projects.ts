@@ -11,6 +11,7 @@ export interface Project {
   githubLinks?: { label: string; url: string }[];
   liveLink?: string;
   image?: string;
+  testCredentials?: { username: string; password: string }[];
 }
 
 export const projects: Project[] = [
@@ -102,6 +103,10 @@ export const projects: Project[] = [
       { label: "Backend", url: "https://github.com/ManishC31/lumochat_backend" },
     ],
     liveLink: "https://lumochat-app.manishchavan.in",
+    testCredentials: [
+      { username: "testing1@gmail.com", password: "Password123" },
+      { username: "testing2@gmail.com", password: "Password123" },
+    ],
   },
   {
     id: "expression-music-recommendation",
