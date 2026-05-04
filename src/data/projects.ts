@@ -15,67 +15,30 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  // {
-  //   id: "assesshub-platform",
-  //   title: "Assesshub Platform",
-  //   shortDescription:
-  //     "Enterprise assessment engine serving 25K+ users/month — built end-to-end with React, Node.js & PostgreSQL.",
-  //   description:
-  //     "Designed and scaled a full-stack assessment platform that powers talent evaluation for organizations. The system handles concurrent test sessions with real-time scoring, anti-cheat proctoring, and comprehensive analytics dashboards — all serving 25K+ monthly active users at 99.9% uptime.",
-  //   problemStatement:
-  //     "Existing assessment tools buckled under load — they couldn't handle thousands of concurrent test-takers while delivering real-time scoring, detailed analytics, and a smooth candidate experience.",
-  //   architecture:
-  //     "React frontend with server-side rendering, Express.js API layer, dedicated scoring microservice, and PostgreSQL with read replicas for heavy analytics queries. Redis handles session caching and rate limiting. Docker-based CI/CD with rolling deploys.",
-  //   techStack: ["React", "Node.js", "Express", "PostgreSQL", "Redis", "Docker", "TypeScript"],
-  //   category: "Full Stack",
-  //   githubLink: "https://github.com/ManishC31",
-  //   liveLink: "https://www.assesshub.com",
-  // },
-  // {
-  //   id: "ai-interview-platform",
-  //   title: "AI Interview Platform",
-  //   shortDescription:
-  //     "AI-powered interviews that auto-generate questions, evaluate responses in real-time, and adapt difficulty on the fly.",
-  //   description:
-  //     "Built an intelligent interview platform using Next.js and TypeScript that leverages LLMs to dynamically generate technical questions, evaluate candidate responses in real-time, and adapt difficulty based on performance. The system produces detailed scoring breakdowns and interviewer-ready reports.",
-  //   problemStatement:
-  //     "Technical interviews are inconsistent, time-consuming, and don't scale. Companies needed a way to standardize assessments without losing the nuance of human evaluation.",
-  //   architecture:
-  //     "Next.js with SSR for snappy UX, OpenAI API integration with prompt chaining for multi-turn interviews, PostgreSQL for session persistence, and Redis for real-time state management. Prompt templates are versioned and A/B tested.",
-  //   techStack: ["Next.js", "TypeScript", "OpenAI API", "PostgreSQL", "Redis", "Tailwind CSS"],
-  //   category: "Generative AI",
-  //   githubLink: "https://github.com/ManishC31",
-  // },
-  // {
-  //   id: "generative-ai-suite",
-  //   title: "Generative AI Integration Suite",
-  //   shortDescription:
-  //     "Production-grade AI features — content generation, intelligent search, and NLP — shipped into live apps serving thousands.",
-  //   description:
-  //     "Integrated generative AI capabilities into multiple production applications at Assesshub: automated content generation for assessments, intelligent semantic search across question banks, and NLP-powered feedback summarization. Every feature had to meet production SLAs.",
-  //   problemStatement:
-  //     "Adding AI to production isn't a weekend hack — it requires rate limiting, graceful fallbacks, prompt versioning, cost control, and zero-downtime deploys without impacting existing users.",
-  //   architecture:
-  //     "Modular AI service layer behind an API gateway with per-tenant rate limiting. Prompt management system with versioning. Response caching to reduce API costs. Circuit-breaker pattern for LLM provider failures. Deployed as serverless functions for elastic scaling.",
-  //   techStack: ["Node.js", "OpenAI API", "LangChain", "PostgreSQL", "Redis", "Docker"],
-  //   category: "Generative AI",
-  //   githubLink: "https://github.com/ManishC31",
-  // },
-  // {
-  //   id: "futurekraft-portal",
-  //   title: "FutureKraft Admin Portal",
-  //   shortDescription:
-  //     "Solo-built company website + admin portal with Django & PostgreSQL — from first commit to production on Heroku.",
-  //   description:
-  //     "Developed the entire FutureKraft web presence and internal admin portal single-handedly. The admin system streamlined business operations with role-based access control, data management dashboards, and automated reporting — all built with Django and deployed on Heroku.",
-  //   problemStatement:
-  //     "The company had no digital presence and relied on spreadsheets for operations. They needed a website and an internal tool — fast, on a startup budget, built by one developer.",
-  //   architecture:
-  //     "Django monolith with PostgreSQL, Celery for background tasks, and Redis for caching. Deployed on Heroku with automated CI/CD. Responsive frontend with Django templates.",
-  //   techStack: ["Django", "PostgreSQL", "Python", "Heroku", "Celery", "Redis"],
-  //   category: "Full Stack",
-  //   githubLink: "https://github.com/ManishC31",
-  // },
+  {
+    id: "invoicer",
+    title: "Invoicer",
+    shortDescription:
+      "Invoice generation app with PDF export, client management, and a live dashboard — built with Next.js 14 and PostgreSQL.",
+    description:
+      "Invoicer is a full-stack invoice management web app built with Next.js 14, TypeScript, and PostgreSQL. It lets you manage clients, create itemized invoices with tax rates and due dates, preview across 3 themes, and auto-generate PDFs uploaded to Cloudinary. A dashboard tracks total billed, collected, and outstanding amounts at a glance.",
+    problemStatement:
+      "Freelancers and small businesses needed a simple self-hosted tool to create professional invoices, track payment status, and download PDFs — without paying for bloated SaaS tools.",
+    architecture:
+      "Next.js 14 App Router with server actions, Prisma ORM over PostgreSQL, Google OAuth via NextAuth, and Cloudinary for PDF storage. Invoice PDFs are generated server-side using Puppeteer and uploaded on save. Deployed on a VPS with a custom subdomain.",
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "NextAuth",
+      "Cloudinary",
+      "Tailwind CSS",
+    ],
+    category: "Full Stack",
+    githubLink: "https://github.com/ManishC31/invoicer",
+    liveLink: "https://invoicer.manishchavan.in/login",
+  },
   {
     id: "lumochat",
     title: "LumoChat",
@@ -99,8 +62,14 @@ export const projects: Project[] = [
     ],
     category: "Full Stack",
     githubLinks: [
-      { label: "Frontend", url: "https://github.com/ManishC31/lumochat_frontend" },
-      { label: "Backend", url: "https://github.com/ManishC31/lumochat_backend" },
+      {
+        label: "Frontend",
+        url: "https://github.com/ManishC31/lumochat_frontend",
+      },
+      {
+        label: "Backend",
+        url: "https://github.com/ManishC31/lumochat_backend",
+      },
     ],
     liveLink: "https://lumochat-app.manishchavan.in",
     testCredentials: [
