@@ -21,7 +21,7 @@ export const projects: Project[] = [
     shortDescription:
       "Invoice generation app with PDF export, client management, and a live dashboard — built with Next.js 14 and PostgreSQL.",
     description:
-      "Invoicer is a full-stack invoice management web app built with Next.js 14, TypeScript, and PostgreSQL. It lets you manage clients, create itemized invoices with tax rates and due dates, preview across 3 themes, and auto-generate PDFs uploaded to Cloudinary. A dashboard tracks total billed, collected, and outstanding amounts at a glance.",
+      "Invoicer is a full-stack invoice management web app built with Next.js 14, TypeScript, and PostgreSQL. It lets you manage clients, create itemized invoices with tax rates and due dates, preview across 3 themes, and auto-generate PDFs uploaded to server. A dashboard tracks total billed, collected, and outstanding amounts at a glance.",
     problemStatement:
       "Freelancers and small businesses needed a simple self-hosted tool to create professional invoices, track payment status, and download PDFs — without paying for bloated SaaS tools.",
     architecture:
@@ -30,9 +30,7 @@ export const projects: Project[] = [
       "Next.js",
       "TypeScript",
       "PostgreSQL",
-      "Prisma",
       "NextAuth",
-      "Cloudinary",
       "Tailwind CSS",
     ],
     category: "Full Stack",
