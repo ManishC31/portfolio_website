@@ -16,6 +16,44 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: "docrag",
+    title: "DocRAG",
+    shortDescription:
+      "A full-stack RAG app where users create document groups, upload PDFs and ask questions answered by an AI grounded in their own files.",
+    description:
+      "DocRAG is a Generative AI application that lets users organise documents into groups and ask natural language questions against them. Built with React and shadcn/ui on the frontend and FastAPI on the backend, it uses a retrieval-augmented generation pipeline to answer queries based strictly on the uploaded content rather than general knowledge.",
+    problemStatement:
+      "Searching through multiple documents manually is slow and error-prone. I wanted to build a clean RAG interface where anyone can upload their own files and get accurate, source-grounded answers without needing to touch an API or write a single prompt.",
+    architecture:
+      "The frontend is built with React and shadcn/ui, communicating with a FastAPI backend that handles document ingestion, chunking and vector storage. Each group supports up to 3 documents. At query time, relevant chunks are retrieved and passed to an LLM as context. PostgreSQL stores group and document metadata, while the vector store manages embeddings for semantic search.",
+    techStack: [
+      "React",
+      "TypeScript",
+      "shadcn/ui",
+      "Tailwind CSS",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "LangChain",
+    ],
+    category: "Generative AI",
+    githubLinks: [
+      {
+        label: "Frontend",
+        url: "https://github.com/ManishC31/docrag-frontend",
+      },
+      {
+        label: "Backend",
+        url: "https://github.com/ManishC31/docrag-backend",
+      },
+    ],
+    liveLink: "https://docrag.manishchavan.in",
+    testCredentials: [
+      { username: "testing1@gmail.com", password: "Password123" },
+      { username: "testing2@gmail.com", password: "Password123" },
+    ],
+  },
+  {
     id: "invoicer",
     title: "Invoicer",
     shortDescription:
