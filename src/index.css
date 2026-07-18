@@ -1,251 +1,138 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Typography-driven, no web fonts. The system stack renders instantly and
+ * matches the reader's platform; a downloaded face would cost a round trip
+ * and a layout shift for no gain at this level of visual restraint.
+ *
+ * Colour: near-black on off-white, one accent reserved for links.
+ *
+ * Theme resolution, in precedence order:
+ *   1. data-theme on <html>, an explicit choice persisted to localStorage
+ *      and applied by the inline script in index.html before first paint.
+ *   2. prefers-color-scheme, the OS setting, used when there is no choice yet.
+ * The dark token block is duplicated rather than shared because a media query
+ * and a plain attribute selector cannot be combined into one rule.
+ */
+
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 230 25% 10%;
+    --background: 40 20% 98%;
+    --foreground: 30 6% 12%;
+    --muted: 30 5% 40%;
+    --faint: 36 12% 91%;
+    --border: 36 12% 87%;
+    --accent: 212 85% 34%;
 
-    --card: 220 20% 94%;
-    --card-foreground: 230 25% 10%;
-
-    --popover: 220 20% 94%;
-    --popover-foreground: 230 25% 10%;
-
-    --primary: 220 90% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 270 60% 55%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 220 15% 90%;
-    --muted-foreground: 220 10% 40%;
-
-    --accent: 270 80% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 85%;
-    --input: 220 15% 85%;
-    --ring: 220 90% 50%;
-
-    --radius: 0.75rem;
-
-    /* Custom tokens */
-    --glow-primary: 220 90% 50%;
-    --glow-accent: 270 80% 60%;
-    --glass-bg: 220 20% 98% / 0.8;
-    --glass-border: 230 25% 10% / 0.08;
-    --neon-blue: 220 90% 50%;
-    --neon-purple: 270 80% 60%;
-    --gradient-primary: linear-gradient(135deg, hsl(220 90% 50%), hsl(270 80% 60%));
-    --gradient-glow: linear-gradient(135deg, hsl(220 90% 50% / 0.2), hsl(270 80% 60% / 0.2));
-    --shadow-neon: 0 0 20px hsl(220 90% 50% / 0.15), 0 0 60px hsl(270 80% 60% / 0.05);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.08);
-
-    --sidebar-background: 220 20% 97%;
-    --sidebar-foreground: 230 25% 10%;
-    --sidebar-primary: 220 90% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 270 80% 60%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 220 15% 85%;
-    --sidebar-ring: 220 90% 50%;
+    color-scheme: light;
   }
 
-  .dark {
-    --background: 230 25% 5%;
-    --foreground: 220 20% 92%;
+  /* OS says dark, and the reader has not explicitly asked for light. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --background: 30 6% 8%;
+      --foreground: 40 12% 90%;
+      --muted: 36 6% 62%;
+      --faint: 30 5% 14%;
+      --border: 30 5% 20%;
+      --accent: 210 80% 72%;
 
-    --card: 230 20% 8%;
-    --card-foreground: 220 20% 92%;
-
-    --popover: 230 20% 8%;
-    --popover-foreground: 220 20% 92%;
-
-    --primary: 220 90% 56%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 270 60% 50%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 230 15% 15%;
-    --muted-foreground: 220 10% 55%;
-
-    --accent: 270 80% 60%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 230 15% 18%;
-    --input: 230 15% 18%;
-    --ring: 220 90% 56%;
-
-    /* Custom tokens */
-    --glow-primary: 220 90% 56%;
-    --glow-accent: 270 80% 60%;
-    --glass-bg: 230 20% 10% / 0.6;
-    --glass-border: 220 20% 92% / 0.08;
-    --neon-blue: 220 90% 56%;
-    --neon-purple: 270 80% 60%;
-    --gradient-primary: linear-gradient(135deg, hsl(220 90% 56%), hsl(270 80% 60%));
-    --gradient-glow: linear-gradient(135deg, hsl(220 90% 56% / 0.3), hsl(270 80% 60% / 0.3));
-    --shadow-neon: 0 0 20px hsl(220 90% 56% / 0.3), 0 0 60px hsl(270 80% 60% / 0.1);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
-
-    --sidebar-background: 230 25% 5%;
-    --sidebar-foreground: 220 20% 92%;
-    --sidebar-primary: 220 90% 56%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 270 80% 60%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 230 15% 18%;
-    --sidebar-ring: 220 90% 56%;
+      color-scheme: dark;
+    }
   }
-}
 
-@layer base {
+  /* Explicit choice, which wins regardless of the OS setting. */
+  :root[data-theme="dark"] {
+    --background: 30 6% 8%;
+    --foreground: 40 12% 90%;
+    --muted: 36 6% 62%;
+    --faint: 30 5% 14%;
+    --border: 30 5% 20%;
+    --accent: 210 80% 72%;
+
+    color-scheme: dark;
+  }
+
   * {
     @apply border-border;
   }
 
-  body {
-    @apply bg-background text-foreground font-body antialiased;
+  html {
+    -webkit-text-size-adjust: 100%;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    font-synthesis-weight: none;
+  }
+
+  /* Visible, high-contrast focus ring on every interactive element. */
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: hsl(var(--accent) / 0.18);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-card/60 backdrop-blur-xl border border-glass-border;
+  .measure {
+    @apply mx-auto w-full px-6;
+    max-width: 780px;
   }
 
-  .glass-strong {
-    @apply bg-card/80 backdrop-blur-2xl border border-glass-border;
+  /* Small caps section label: hierarchy without colour or decoration. */
+  .eyebrow {
+    @apply text-muted font-semibold uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.09em;
   }
 
-  .glow-border {
-    @apply relative;
-    background: linear-gradient(var(--background), var(--background)) padding-box,
-                var(--gradient-primary) border-box;
-    border: 1px solid transparent;
+  .link {
+    @apply text-accent underline decoration-1;
+    text-underline-offset: 3px;
+    transition: text-decoration-color 120ms ease;
+    text-decoration-color: hsl(var(--accent) / 0.4);
   }
 
-  .neon-text {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .link:hover {
+    text-decoration-color: hsl(var(--accent));
   }
 
-  .glow-effect {
-    box-shadow: var(--shadow-neon);
+  /* Quiet link for nav and metadata: inherits body colour, accents on hover. */
+  .link-quiet {
+    @apply text-muted no-underline;
+    transition: color 120ms ease;
   }
 
-  .hover-glow {
-    @apply transition-all duration-500;
-  }
-  .hover-glow:hover {
-    box-shadow: var(--shadow-neon);
-    border-color: hsl(var(--glow-primary) / 0.3);
+  .link-quiet:hover {
+    @apply text-foreground;
   }
 
-  .section-container {
-    @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+  .tag {
+    @apply inline-block text-muted;
+    font-size: 0.8125rem;
   }
 
-  .btn-primary-glow {
-    @apply relative overflow-hidden px-6 py-3 rounded-lg font-medium text-primary-foreground transition-all duration-300;
-    background: var(--gradient-primary);
-    box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.3);
+  .divider {
+    @apply border-0 border-t border-border;
   }
-  .btn-primary-glow:hover {
-    box-shadow: 0 0 30px hsl(var(--neon-blue) / 0.5), 0 0 60px hsl(var(--neon-purple) / 0.3);
-    transform: translateY(-2px);
-  }
-
-  .btn-outline-glow {
-    @apply relative px-6 py-3 rounded-lg font-medium transition-all duration-300 border;
-    border-color: hsl(var(--glow-primary) / 0.4);
-    color: hsl(var(--glow-primary));
-  }
-  .btn-outline-glow:hover {
-    background: hsl(var(--glow-primary) / 0.1);
-    box-shadow: 0 0 20px hsl(var(--neon-blue) / 0.2);
-    border-color: hsl(var(--glow-primary) / 0.7);
-  }
-
-  .card-futuristic {
-    @apply glass rounded-xl p-6 hover-glow transition-all duration-500;
-    box-shadow: var(--shadow-card);
-  }
-  .card-futuristic:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-neon), var(--shadow-card);
-  }
-
-  .skill-tag {
-    @apply px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors duration-300;
-    background: hsl(var(--neon-blue) / 0.12);
-    border-color: hsl(var(--neon-blue) / 0.3);
-    color: hsl(var(--primary));
-  }
-  .skill-tag:hover {
-    background: hsl(var(--neon-blue) / 0.22);
-    border-color: hsl(var(--neon-blue) / 0.5);
-    color: hsl(var(--primary));
-  }
-
-  .section-title {
-    @apply text-3xl sm:text-4xl lg:text-5xl font-bold font-display tracking-tight;
-  }
-
-  .section-subtitle {
-    @apply text-muted-foreground text-base sm:text-lg max-w-2xl;
-  }
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-}
-::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--primary) / 0.5);
-}
-
-/* Animated gradient mesh background */
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
 }

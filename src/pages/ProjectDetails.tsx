@@ -1,135 +1,122 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowLeft, Github, ExternalLink, Globe } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import Layout from "@/components/Layout";
 import { projects } from "@/data/projects";
-import Navbar from "@/components/Navbar";
 
 const ProjectDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const project = projects.find((p) => p.id === id);
 
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-display font-bold mb-4">Project not found</h1>
-          <button onClick={() => navigate("/")} className="btn-primary-glow">Go Home</button>
+      <Layout>
+        <div className="measure py-12">
+          <h1 className="text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-tight">
+            Project not found
+          </h1>
+          <p className="mt-4">
+            <Link to="/projects" className="link">
+              See all projects
+            </Link>
+          </p>
         </div>
-      </div>
+      </Layout>
     );
   }
 
+  const repos = project.githubLinks ?? (
+    project.githubLink ? [{ label: "Source", url: project.githubLink }] : []
+  );
+
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <div className="pt-24 pb-16">
-        <div className="section-container">
-          <motion.button
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            onClick={() => navigate("/projects")}
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors duration-300 mb-8"
-          >
-            <ArrowLeft size={16} /> Back to Projects
-          </motion.button>
+    <Layout>
+      <article className="measure py-12">
+        <p className="text-[0.9375rem]">
+          <Link to="/projects" className="link-quiet">
+            ← All projects
+          </Link>
+        </p>
 
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="skill-tag text-xs uppercase tracking-widest mb-4 inline-block">
-              {project.category}
+        <h1 className="mt-6 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-tight">
+          {project.title}
+        </h1>
+        <p className="mt-1 tag">{project.category}</p>
+
+        <p className="mt-6">{project.summary}</p>
+
+        <p className="mt-6 text-[0.9375rem]">
+          {project.liveLink && (
+            <>
+              <a
+                href={project.liveLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                Live demo
+              </a>
+              {repos.length > 0 && <span className="text-muted"> · </span>}
+            </>
+          )}
+          {repos.map((repo, i) => (
+            <span key={repo.url}>
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link"
+              >
+                {repo.label === "Source" ? "Source" : `Source: ${repo.label}`}
+              </a>
+              {i < repos.length - 1 && <span className="text-muted"> · </span>}
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold tracking-tight mb-6">
-              {project.title}
-            </h1>
+          ))}
+          {project.proprietaryNote && (
+            <span className="text-muted">{project.proprietaryNote}</span>
+          )}
+        </p>
 
-            <div className="flex flex-wrap gap-2 mb-8">
-              {project.techStack.map((tech) => (
-                <span key={tech} className="skill-tag">{tech}</span>
+        <section className="mt-12">
+          <h2 className="eyebrow">Overview</h2>
+          <p className="mt-3">{project.overview}</p>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="eyebrow">Role</h2>
+          <p className="mt-3">{project.role}</p>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="eyebrow">The hard part</h2>
+          <p className="mt-3">{project.hardPart}</p>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="eyebrow">Architecture</h2>
+          <p className="mt-3">{project.architecture}</p>
+        </section>
+
+        <section className="mt-10">
+          <h2 className="eyebrow">Stack</h2>
+          <p className="mt-3">{project.techStack.join(" · ")}</p>
+        </section>
+
+        {project.testCredentials && (
+          <section className="mt-10">
+            <h2 className="eyebrow">Test credentials</h2>
+            <p className="mt-3 text-muted text-[0.9375rem]">
+              Throwaway accounts for the live demo.
+            </p>
+            <ul className="mt-3 space-y-2">
+              {project.testCredentials.map((cred) => (
+                <li key={cred.username} className="font-mono text-[0.875rem]">
+                  {cred.username} · {cred.password}
+                </li>
               ))}
-            </div>
-
-            <div className="flex flex-wrap gap-4 mb-12">
-              {project.liveLink && (
-                <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="btn-primary-glow flex items-center gap-2 !text-sm">
-                  <Globe size={16} /> Visit Live Application
-                </a>
-              )}
-              {project.githubLinks
-                ? project.githubLinks.map((link) => (
-                    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer" className="btn-outline-glow flex items-center gap-2 !text-sm">
-                      <Github size={16} /> {link.label}
-                    </a>
-                  ))
-                : project.githubLink && (
-                    <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="btn-outline-glow flex items-center gap-2 !text-sm">
-                      <Github size={16} /> View Source
-                    </a>
-                  )}
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="lg:col-span-2 space-y-8"
-            >
-              <div className="card-futuristic">
-                <h2 className="font-display font-semibold text-xl mb-4 neon-text">Overview</h2>
-                <p className="text-muted-foreground leading-relaxed">{project.description}</p>
-              </div>
-
-              <div className="card-futuristic">
-                <h2 className="font-display font-semibold text-xl mb-4 neon-text">Problem Statement</h2>
-                <p className="text-muted-foreground leading-relaxed">{project.problemStatement}</p>
-              </div>
-
-              <div className="card-futuristic">
-                <h2 className="font-display font-semibold text-xl mb-4 neon-text">Architecture</h2>
-                <p className="text-muted-foreground leading-relaxed">{project.architecture}</p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="space-y-6"
-            >
-              <div className="card-futuristic">
-                <h3 className="font-display font-semibold mb-4">Tech Stack</h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.techStack.map((tech) => (
-                    <span key={tech} className="skill-tag">{tech}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="card-futuristic">
-                <h3 className="font-display font-semibold mb-4">Category</h3>
-                <span className="skill-tag">{project.category}</span>
-              </div>
-
-              {project.testCredentials && (
-                <div className="card-futuristic">
-                  <h3 className="font-display font-semibold mb-4">Test Credentials</h3>
-                  <div className="space-y-4">
-                    {project.testCredentials.map((cred, i) => (
-                      <div key={i} className="text-sm space-y-1">
-                        <p className="text-muted-foreground">User {i + 1}</p>
-                        <p className="font-mono text-xs break-all">{cred.username}</p>
-                        <p className="font-mono text-xs">{cred.password}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </ul>
+          </section>
+        )}
+      </article>
+    </Layout>
   );
 };
 

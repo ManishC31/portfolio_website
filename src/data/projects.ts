@@ -1,51 +1,74 @@
 export interface Project {
   id: string;
   title: string;
-  shortDescription: string;
-  description: string;
-  problemStatement: string;
-  architecture: string;
+  /** One line: what it does. */
+  summary: string;
+  /** Scope and ownership: what was actually mine. */
+  role: string;
+  /** The engineering problem worth talking about in an interview. */
+  hardPart: string;
   techStack: string[];
-  category: "Generative AI" | "Full Stack" | "Machine Learning & AI";
+  /** Longer form, shown on the detail page. */
+  overview: string;
+  architecture: string;
+  category: "Generative AI" | "Full Stack" | "Machine Learning";
+  featured?: boolean;
+  /** Closed-source work, shown in place of repository links. */
+  proprietaryNote?: string;
   githubLink?: string;
   githubLinks?: { label: string; url: string }[];
   liveLink?: string;
-  image?: string;
   testCredentials?: { username: string; password: string }[];
 }
 
 export const projects: Project[] = [
   {
+    id: "ai-interview-platform",
+    title: "AI Interview Platform",
+    summary:
+      "Assessment product that generates technical interview questions on the fly and scores candidate responses automatically.",
+    role: "Built at Assesshub on Next.js and TypeScript, covering question generation, the evaluation pipeline and the candidate-facing interface.",
+    hardPart:
+      "Model output had to be dependable enough to sit in a live assessment flow. Generated questions needed to stay on-scope for the role being tested, and scoring had to stay consistent between runs rather than drifting with phrasing.",
+    overview:
+      "An interview platform inside Assesshub's assessment product. Rather than drawing from a fixed question bank, it generates technical questions dynamically per candidate and evaluates the responses automatically, so assessments can cover a wider surface without a proportional amount of manual authoring and review.",
+    architecture:
+      "Next.js and TypeScript across the application, with generative AI driving both question generation and response evaluation.",
+    // TODO: this entry is deliberately thin because it is the only project not
+    // backed by a public repo. Worth adding, if you can share it: usage numbers
+    // (candidates or interviews processed), how you constrained/validated model
+    // output, and the rest of the stack (datastore, queueing, model provider).
+    techStack: ["Next.js", "TypeScript", "Generative AI"],
+    category: "Generative AI",
+    featured: true,
+    proprietaryNote: "Closed source, built at Assesshub. No public repository.",
+  },
+  {
     id: "docrag",
     title: "DocRAG",
-    shortDescription:
-      "A full-stack RAG app where users create document groups, upload PDFs and ask questions answered by an AI grounded in their own files.",
-    description:
-      "DocRAG is a Generative AI application that lets users organise documents into groups and ask natural language questions against them. Built with React and shadcn/ui on the frontend and FastAPI on the backend, it uses a retrieval-augmented generation pipeline to answer queries based strictly on the uploaded content rather than general knowledge.",
-    problemStatement:
-      "Searching through multiple documents manually is slow and error-prone. I wanted to build a clean RAG interface where anyone can upload their own files and get accurate, source-grounded answers without needing to touch an API or write a single prompt.",
+    summary:
+      "Retrieval-augmented Q&A over your own documents. Upload PDFs into groups, ask questions, and get answers grounded in the files rather than the model's general knowledge.",
+    role: "Sole engineer. React and shadcn/ui frontend, FastAPI backend, and the full ingestion-to-retrieval pipeline.",
+    hardPart:
+      "Answer quality is retrieval quality. Keeping responses grounded in the uploaded documents, instead of letting the model fill gaps from training data, meant the chunking and retrieval step was where the work went rather than the prompt.",
+    overview:
+      "A generative AI application for asking natural language questions against your own documents. Users organise PDFs into groups of up to three, and queries are answered strictly from the content of those files.",
     architecture:
-      "The frontend is built with React and shadcn/ui, communicating with a FastAPI backend that handles document ingestion, chunking and vector storage. Each group supports up to 3 documents. At query time, relevant chunks are retrieved and passed to an LLM as context. PostgreSQL stores group and document metadata, while the vector store manages embeddings for semantic search.",
+      "React and shadcn/ui frontend against a FastAPI backend handling ingestion, chunking and vector storage. At query time the relevant chunks are retrieved and passed to the model as context. PostgreSQL holds group and document metadata; the vector store handles embeddings for semantic search.",
     techStack: [
       "React",
       "TypeScript",
-      "shadcn/ui",
-      "Tailwind CSS",
       "FastAPI",
       "Python",
       "PostgreSQL",
       "LangChain",
+      "Tailwind CSS",
     ],
     category: "Generative AI",
+    featured: true,
     githubLinks: [
-      {
-        label: "Frontend",
-        url: "https://github.com/ManishC31/docrag-frontend",
-      },
-      {
-        label: "Backend",
-        url: "https://github.com/ManishC31/docrag-backend",
-      },
+      { label: "Frontend", url: "https://github.com/ManishC31/docrag-frontend" },
+      { label: "Backend", url: "https://github.com/ManishC31/docrag-backend" },
     ],
     liveLink: "https://docrag.manishchavan.in",
     testCredentials: [
@@ -56,36 +79,40 @@ export const projects: Project[] = [
   {
     id: "invoicer",
     title: "Invoicer",
-    shortDescription:
-      "Invoice generation app with PDF export, client management, and a live dashboard — built with Next.js 14 and PostgreSQL.",
-    description:
-      "Invoicer is a full-stack invoice management web app built with Next.js 14, TypeScript, and PostgreSQL. It lets you manage clients, create itemized invoices with tax rates and due dates, preview across 3 themes, and auto-generate PDFs uploaded to server. A dashboard tracks total billed, collected, and outstanding amounts at a glance.",
-    problemStatement:
-      "Freelancers and small businesses needed a simple self-hosted tool to create professional invoices, track payment status, and download PDFs — without paying for bloated SaaS tools.",
+    summary:
+      "Self-hosted invoicing with client records, itemised invoices carrying tax and due dates, server-generated PDFs, and a dashboard for billed, collected and outstanding totals.",
+    role: "Sole engineer. Next.js 14 App Router with server actions, Prisma over PostgreSQL, and the PDF generation and storage path.",
+    hardPart:
+      "Generating the PDF server-side with Puppeteer on save, rather than in the browser, so the stored document is the invoice of record. That means running a headless browser reliably on a small VPS alongside the app.",
+    overview:
+      "A full-stack invoice management application. It handles client records, itemised invoices with tax rates and due dates, preview across three themes, and PDF generation on save. A dashboard tracks total billed, collected and outstanding amounts.",
     architecture:
-      "Next.js 14 App Router with server actions, Prisma ORM over PostgreSQL, Google OAuth via NextAuth, and Cloudinary for PDF storage. Invoice PDFs are generated server-side using Puppeteer and uploaded on save. Deployed on a VPS with a custom subdomain.",
+      "Next.js 14 App Router with server actions, Prisma ORM over PostgreSQL, Google OAuth through NextAuth, and Cloudinary for PDF storage. Invoice PDFs are rendered server-side with Puppeteer and uploaded on save. Deployed to a VPS on a custom subdomain.",
     techStack: [
       "Next.js",
       "TypeScript",
       "PostgreSQL",
+      "Prisma",
       "NextAuth",
       "Tailwind CSS",
     ],
     category: "Full Stack",
+    featured: true,
     githubLink: "https://github.com/ManishC31/invoicer",
     liveLink: "https://invoicer.manishchavan.in/login",
   },
   {
     id: "lumochat",
     title: "LumoChat",
-    shortDescription:
-      "A full-stack real-time chat app with JWT auth, Socket.io messaging, typing indicators and Cloudinary media uploads.",
-    description:
-      "LumoChat is a real-time messaging app I built with React and TypeScript on the frontend and Express/Node.js on the backend. It supports live typing indicators, online presence, lazy-loaded message pagination and a media gallery for images, videos and audio. Auth is handled with JWT stored in HTTP-only cookies.",
-    problemStatement:
-      "Most chat projects are just demos that never see production. I wanted to build something complete enough to actually ship, with proper auth, file uploads and the kind of UX details that make it feel like a real app.",
+    summary:
+      "Real-time messaging with typing indicators, online presence, paginated history and a media gallery for images, video and audio.",
+    role: "Sole engineer across both services: a React frontend and an Express and Socket.io backend, deployed separately.",
+    hardPart:
+      "Keeping live state and historical state coherent: presence and typing events arrive over Socket.io while message history loads lazily in pages, and media uploads had to be compressed before storage so they didn't stall the send path.",
+    overview:
+      "A real-time messaging application built to production standards rather than as a demo. It covers JWT auth in HTTP-only cookies, file uploads, lazy-loaded message pagination, and a media gallery.",
     architecture:
-      "The frontend is built with React 18 and Vite, using Socket.io for real-time events and TanStack Query for server state. The backend runs on Express 5 with Socket.io, PostgreSQL for storage and Cloudinary for media. Files get compressed with Sharp before upload. The two services are deployed separately on their own subdomains.",
+      "React 18 and Vite on the frontend, using Socket.io for real-time events and TanStack Query for server state. Express 5 with Socket.io on the backend, PostgreSQL for storage and Cloudinary for media, with Sharp compressing files before upload. The two services deploy independently on their own subdomains.",
     techStack: [
       "React",
       "TypeScript",
@@ -94,18 +121,12 @@ export const projects: Project[] = [
       "Socket.io",
       "PostgreSQL",
       "Cloudinary",
-      "Tailwind CSS",
     ],
     category: "Full Stack",
+    featured: true,
     githubLinks: [
-      {
-        label: "Frontend",
-        url: "https://github.com/ManishC31/lumochat_frontend",
-      },
-      {
-        label: "Backend",
-        url: "https://github.com/ManishC31/lumochat_backend",
-      },
+      { label: "Frontend", url: "https://github.com/ManishC31/lumochat_frontend" },
+      { label: "Backend", url: "https://github.com/ManishC31/lumochat_backend" },
     ],
     liveLink: "https://lumochat-app.manishchavan.in",
     testCredentials: [
@@ -115,31 +136,27 @@ export const projects: Project[] = [
   },
   {
     id: "expression-music-recommendation",
-    title: "Emotion-Based Music Recommender",
-    shortDescription:
-      "Flutter app that reads your facial expression via CNN and queues up music to match your mood — in real-time.",
-    description:
-      "Built an Android app using Flutter that integrates a CNN-based facial expression recognition model. The system performs real-time emotion detection through the device camera and maps detected moods to curated playlists. Published research on the underlying model in IRJET 2021.",
-    problemStatement:
-      "Music selection doesn't adapt to how you're actually feeling. Manual playlist curation is slow — what if your phone could just read the room (or your face)?",
+    title: "Expression-Based Music Recommendation",
+    summary:
+      "Android app that reads facial expression through the camera and recommends music matching the detected mood. Basis for a published paper.",
+    role: "Built the Flutter application and integrated the CNN model, including the optimisation work for on-device inference.",
+    hardPart:
+      "Running inference on-device in real time. The model had to be optimised for mobile deployment, trading accuracy against latency to stay responsive on commodity Android hardware.",
+    overview:
+      "An Android application integrating CNN-based facial expression recognition. It performs real-time emotion detection through the device camera and maps detected moods to music recommendations. The underlying model was published in IRJET in 2021.",
     architecture:
-      "Flutter frontend with TensorFlow Lite for on-device inference. The CNN was trained on the FER2013 dataset and quantized for mobile. A recommendation engine maps 7 emotion categories to curated Spotify playlists via API.",
-    techStack: [
-      "Flutter",
-      "TensorFlow Lite",
-      "CNN",
-      "Python",
-      "Computer Vision",
-      "Firebase",
-    ],
-    category: "Machine Learning & AI",
+      "Flutter application with the expression recognition model running on-device. Detected emotion categories drive the recommendation step.",
+    techStack: ["Flutter", "CNN", "Python", "Computer Vision"],
+    category: "Machine Learning",
     githubLink: "https://github.com/ManishC31/flutter_fer",
   },
 ];
+
+export const featuredProjects = projects.filter((p) => p.featured);
 
 export const categories = [
   "All",
   "Generative AI",
   "Full Stack",
-  "Machine Learning & AI",
+  "Machine Learning",
 ] as const;

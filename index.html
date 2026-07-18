@@ -1,20 +1,40 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manish Chavan – Software Engineer & AI Enthusiast</title>
-    <meta name="description" content="Portfolio of Manish Chavan — Software Engineer specializing in scalable backend systems, generative AI, and full-stack web development." />
+    <title>Manish Chavan – Software Engineer</title>
+    <meta
+      name="description"
+      content="Software engineer with three years building and operating production web systems in React, Next.js, Node.js, TypeScript and PostgreSQL. Based in Koblenz, Germany."
+    />
     <meta name="author" content="Manish Chavan" />
+    <link rel="canonical" href="https://manishchavan.in/" />
 
     <meta property="og:title" content="Manish Chavan – Software Engineer" />
-    <meta property="og:description" content="Building scalable systems, integrating AI, and crafting high-performance web applications." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta
+      property="og:description"
+      content="Three years building and operating production web systems. Led a team of two to four engineers at Assesshub, running at 25,000+ monthly active users."
+    />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://manishchavan.in/" />
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <!--
+      Applies a saved theme choice before first paint so the page never flashes
+      the wrong colours. With no saved choice the attribute stays off and the
+      stylesheet falls back to prefers-color-scheme.
+    -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t === "light" || t === "dark")
+            document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
   </head>
 
   <body>
