@@ -83,7 +83,7 @@ export const education: Study[] = [
   {
     institution: "Universität Koblenz",
     qualification: "M.Sc. Web and Data Science",
-    location: "Koblenz, Germany",
+    location: "Berlin, Germany",
     period: "Oct 2025 – present",
     // The Jul 2026 CV dropped the "(Expected 2027)" qualifier the previous one
     // carried, so it is no longer asserted here either.

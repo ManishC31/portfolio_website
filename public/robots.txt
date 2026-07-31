@@ -10,5 +10,13 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
 User-agent: *
 Allow: /
+
+Sitemap: https://manishchavan.in/sitemap.xml

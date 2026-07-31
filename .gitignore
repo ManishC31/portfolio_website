@@ -1,5 +1,7 @@
 # build output
 dist/
+# intermediate SSR bundle, consumed and removed by scripts/prerender.mjs
+dist-ssr/
 # generated types
 .astro/
 

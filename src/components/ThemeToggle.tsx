@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -15,8 +15,20 @@ const read = (): Theme | null => {
 const systemTheme = (): Theme =>
   window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
+// The prerender pass runs this component in Node, where neither localStorage
+// nor matchMedia exists, and useLayoutEffect is a no-op that React warns about.
+const useBrowserLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<Theme>(() => read() ?? systemTheme());
+  // Starts unresolved so the server and the first client render agree. The
+  // layout effect below settles it before the browser paints, so the
+  // placeholder is never visible.
+  const [theme, setTheme] = useState<Theme | null>(null);
+
+  useBrowserLayoutEffect(() => {
+    setTheme(read() ?? systemTheme());
+  }, []);
 
   // While the reader has made no explicit choice, keep following the OS.
   useEffect(() => {
@@ -40,16 +52,21 @@ const ThemeToggle = () => {
   };
 
   const target = theme === "dark" ? "light" : "dark";
+  const label = theme ? `Switch to ${target} theme` : "Switch theme";
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={`Switch to ${target} theme`}
-      title={`Switch to ${target} theme`}
+      aria-label={label}
+      title={label}
       className="link-quiet -m-1 p-1 leading-none"
+      suppressHydrationWarning
     >
-      {theme === "dark" ? (
+      {theme === null ? (
+        // Unresolved: hold the icon's exact footprint so nothing shifts.
+        <span className="block h-[17px] w-[17px]" aria-hidden="true" />
+      ) : theme === "dark" ? (
         // Sun icon: clicking returns to light.
         <svg
           width="17"

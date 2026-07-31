@@ -3,23 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manish Chavan – Software Engineer</title>
+    <meta name="author" content="Manish Chavan" />
+
+    <!--
+      All three are generated from public/hacker.png by
+      scripts/generate-assets.mjs. 32px is the size a browser tab actually
+      draws; the 180 is there for higher-density displays and pinned tabs.
+    -->
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-180.png" sizes="180x180" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Matches --background in index.css so the browser chrome blends in. -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#fbfaf9"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#161413"
+    />
+
+    <meta property="og:locale" content="en" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Everything between the seo markers is regenerated per route by
+      scripts/prerender.mjs from src/data/seo.ts. What sits here is the home
+      page's copy: it is what `vite dev` serves and what a build would fall
+      back to, so it should stay in step with metaForPath("/").
+      Do not hand-edit one without the other, and do not move the markers.
+    -->
+    <!--seo:start-->
+    <title>Manish Chavan — Full-stack Software Engineer</title>
     <meta
       name="description"
-      content="Software engineer with three years building and operating production web systems in React, Next.js, Node.js, TypeScript and PostgreSQL. Based in Koblenz, Germany."
+      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
     />
-    <meta name="author" content="Manish Chavan" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
     <link rel="canonical" href="https://manishchavan.in/" />
-
-    <meta property="og:title" content="Manish Chavan – Software Engineer" />
+    <meta
+      property="og:title"
+      content="Manish Chavan — Full-stack Software Engineer"
+    />
     <meta
       property="og:description"
-      content="Three years building and operating production web systems. Led a team of two to four engineers at Assesshub, running at 25,000+ monthly active users."
+      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
     />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://manishchavan.in/" />
-
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:site_name" content="Manish Chavan" />
+    <meta property="og:image" content="https://manishchavan.in/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Manish Chavan, Full-stack Software Engineer"
+    />
+    <meta
+      name="twitter:title"
+      content="Manish Chavan — Full-stack Software Engineer"
+    />
+    <meta
+      name="twitter:description"
+      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+    />
+    <meta name="twitter:image" content="https://manishchavan.in/og.png" />
+    <!--seo:end-->
 
     <!--
       Applies a saved theme choice before first paint so the page never flashes
@@ -38,7 +93,7 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

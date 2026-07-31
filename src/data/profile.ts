@@ -1,7 +1,7 @@
 export const profile = {
   name: "Manish Chavan",
   role: "Full-stack Software Engineer",
-  location: "Koblenz, Germany",
+  location: "Berlin, Germany",
   email: "manishchavan80@gmail.com",
   // Lowercase deliberately: this is the path git tracks and the URL the
   // previous site already published. A case-sensitive host would 404 on any
@@ -16,7 +16,11 @@ export const profile = {
   ],
   availability: "Looking for full-time engineering roles, remote or on-site.",
   links: [
-    { label: "GitHub", href: "https://github.com/ManishC31", handle: "ManishC31" },
+    {
+      label: "GitHub",
+      href: "https://github.com/ManishC31",
+      handle: "ManishC31",
+    },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/in/manish-chavan-58676019a/",

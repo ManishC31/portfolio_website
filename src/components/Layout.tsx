@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
+import { useSeo } from "@/hooks/use-seo";
 import { profile } from "@/data/profile";
 
 const NAV = [
@@ -12,6 +13,10 @@ const NAV = [
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { pathname } = useLocation();
   const onHome = pathname === "/";
+
+  // Every page renders through Layout, so this is the one place head tags need
+  // to be refreshed on client-side navigation.
+  useSeo();
 
   // On the home page a bare hash scrolls natively. From a sub-page we need a
   // real navigation to "/" so the browser resolves the fragment on arrival.
@@ -54,7 +59,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </main>
 
         <footer className="measure border-t border-border py-8 mt-24">
-          <p className="text-muted text-[0.875rem]">
+          {/*
+            The year is baked in at build time and recomputed on hydration, so
+            these disagree in the window between a December build and a January
+            visit. The client value is the correct one; suppress the notice
+            rather than freeze the year.
+          */}
+          <p className="text-muted text-[0.875rem]" suppressHydrationWarning>
             © {new Date().getFullYear()} {profile.name} · {profile.languages}
           </p>
         </footer>
