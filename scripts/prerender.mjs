@@ -18,6 +18,12 @@
  *
  * The client hydrates this markup rather than replacing it (see main.tsx), so
  * the interactive behaviour is unchanged.
+ *
+ * This is also why vercel.json carries no SPA rewrite. Every route below is
+ * written to disk as a real file, so Vercel's filesystem routing serves them
+ * directly, and anything unmatched falls through to dist/404.html with a
+ * genuine 404 status rather than a soft 200. (vercel.json cannot say this
+ * itself: JSON has no comments, and Vercel's schema rejects a "//" key.)
  */
 
 import { readFile, writeFile, mkdir, rm } from "node:fs/promises";

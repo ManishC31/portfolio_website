@@ -2,17 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-
-  "//": [
-    "No SPA rewrite here on purpose. Every route in src/data/seo.ts is written",
-    "to disk as a real file by scripts/prerender.mjs, so filesystem routing",
-    "serves them directly, and anything unmatched falls through to dist/404.html",
-    "with a genuine 404 status instead of a soft 200."
-  ],
-
   "cleanUrls": true,
   "trailingSlash": false,
-
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -25,9 +16,7 @@
     },
     {
       "source": "/(og.png|favicon-32.png|favicon-180.png|apple-touch-icon.png|hacker.png)",
-      "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     },
     {
       "source": "/(.*)",
