@@ -31,20 +31,25 @@ const iconSource = `data:image/png;base64,${(
   await readFile(path.join(publicDir, "hacker.png"))
 ).toString("base64")}`;
 
+// The light-theme tokens from index.css, resolved to hex. Regenerate the card
+// whenever those change, or the unfurl stops looking like the site.
 const COLOR = {
-  background: "#fbfaf9",
-  foreground: "#201f1d",
-  muted: "#6b6661",
-  border: "#e2dfda",
-  accent: "#0d52a0",
+  background: "#fcfcfd",
+  foreground: "#141624",
+  muted: "#65687b",
+  border: "#e1e2ea",
+  accent: "#583eda",
+  accent2: "#0daac9",
 };
 
-// Matches the body font-family in index.css: no web fonts anywhere on the site.
+// The site loads Inter, but this page is rendered by a headless Chromium that
+// has no access to the bundle's woff2, so the card uses the platform UI stack
+// deliberately rather than silently falling back to it.
 const FONT = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
 
 const NAME = "Manish Chavan";
 const ROLE = "Full-stack Software Engineer";
-const LOCATION = "Berlin, Germany";
+const LOCATION = "Germany";
 const STACK = "TypeScript · React · Node.js · PostgreSQL · Generative AI";
 const DOMAIN = "manishchavan.in";
 
@@ -74,8 +79,15 @@ const ogCard = `<!doctype html>
       h1 {
         font-size: 82px;
         font-weight: 700;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.03em;
         line-height: 1.05;
+      }
+      /* Mirrors .gradient-text in index.css: the surname carries the accent. */
+      h1 .accent {
+        background: linear-gradient(100deg, ${COLOR.accent}, ${COLOR.accent2});
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       .role { margin-top: 20px; font-size: 36px; color: ${COLOR.muted}; }
       hr { margin: 44px 0; border: 0; border-top: 2px solid ${COLOR.border}; }
@@ -90,7 +102,7 @@ const ogCard = `<!doctype html>
     </style>
   </head>
   <body>
-    <h1>${NAME}</h1>
+    <h1>${NAME.split(" ")[0]} <span class="accent">${NAME.split(" ").slice(1).join(" ")}</span></h1>
     <p class="role">${ROLE} · ${LOCATION}</p>
     <hr />
     <p class="stack">${STACK}</p>

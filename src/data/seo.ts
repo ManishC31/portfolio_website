@@ -54,21 +54,32 @@ export interface PageSeo {
 
 /* ---------------------------------------------------------------- entities */
 
-// profile.location is "City, Country". Kept derived so a move only needs
-// editing in one place.
-const [locality, country] = profile.location.split(", ");
+/*
+ * profile.location may be "City, Country" or just a country, so the last
+ * segment is the country and anything before it is the locality. Splitting on
+ * the assumption there are always two parts left addressCountry undefined the
+ * moment the city was dropped, which silently produced an invalid
+ * PostalAddress. Kept derived so a move only needs editing in one place.
+ */
+const locationParts = profile.location.split(",").map((part) => part.trim());
+const country = locationParts[locationParts.length - 1];
+const locality = locationParts.length > 1 ? locationParts[0] : null;
 
 const person = {
   "@type": "Person",
   "@id": PERSON_ID,
   name: profile.name,
   url: `${SITE_URL}/`,
-  image: absolute(OG_IMAGE),
+  // A photograph of the person, not the OG card. Schema.org wants an actual
+  // likeness here — it is what a knowledge panel would show — and the unfurl
+  // banner is still declared separately as og:image on every page.
+  image: absolute("/portrait.png"),
   jobTitle: profile.role,
   email: `mailto:${profile.email}`,
   address: {
     "@type": "PostalAddress",
-    addressLocality: locality,
+    // Omitted entirely rather than emitted empty when no city is given.
+    ...(locality ? { addressLocality: locality } : {}),
     addressCountry: country,
   },
   // Links out to the profiles Google uses to reconcile identity across the web.
@@ -116,16 +127,16 @@ const breadcrumbs = (trail: [string, string][]) => ({
 
 const home = (): PageSeo => ({
   path: "/",
-  title: `${profile.name} — ${profile.role}`,
+  title: `${profile.name} · ${profile.role}`,
   description: clamp(
-    `Full-stack engineer in ${profile.location}. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features.`,
+    `Full-stack engineer in ${profile.location}. Three years building production web systems with React, Node.js, TypeScript and PostgreSQL, plus generative AI.`,
   ),
   ogType: "profile",
   jsonLd: graph(person, website, {
     "@type": "ProfilePage",
     "@id": `${SITE_URL}/#profilepage`,
     url: `${SITE_URL}/`,
-    name: `${profile.name} — ${profile.role}`,
+    name: `${profile.name} · ${profile.role}`,
     isPartOf: { "@id": WEBSITE_ID },
     mainEntity: { "@id": PERSON_ID },
     inLanguage: "en",
@@ -134,9 +145,9 @@ const home = (): PageSeo => ({
 
 const projectsIndex = (): PageSeo => ({
   path: "/projects",
-  title: `Projects — ${profile.name}`,
+  title: `Projects · ${profile.name}`,
   description: clamp(
-    `Every public project by ${profile.name}: generative AI, full-stack and machine learning work, each with the architecture and the hard problem behind it.`,
+    `Every public project by ${profile.name}: generative AI, full-stack and machine learning work, each with its architecture and the problem that made it hard.`,
   ),
   ogType: "website",
   jsonLd: graph(
@@ -146,7 +157,7 @@ const projectsIndex = (): PageSeo => ({
       "@type": "CollectionPage",
       "@id": `${SITE_URL}/projects#page`,
       url: `${SITE_URL}/projects`,
-      name: `Projects — ${profile.name}`,
+      name: `Projects · ${profile.name}`,
       isPartOf: { "@id": WEBSITE_ID },
       about: { "@id": PERSON_ID },
       inLanguage: "en",
@@ -170,7 +181,7 @@ const projectsIndex = (): PageSeo => ({
 
 const writingIndex = (): PageSeo => ({
   path: "/blogs",
-  title: `Writing — ${profile.name}`,
+  title: `Writing · ${profile.name}`,
   description: clamp(
     `Notes on system design and applied AI by ${profile.name}, published on Hashnode, alongside peer-reviewed publications.`,
   ),
@@ -182,7 +193,7 @@ const writingIndex = (): PageSeo => ({
       "@type": "CollectionPage",
       "@id": `${SITE_URL}/blogs#page`,
       url: `${SITE_URL}/blogs`,
-      name: `Writing — ${profile.name}`,
+      name: `Writing · ${profile.name}`,
       isPartOf: { "@id": WEBSITE_ID },
       about: { "@id": PERSON_ID },
       inLanguage: "en",
@@ -226,7 +237,7 @@ const projectPage = (id: string): PageSeo | null => {
 
   return {
     path,
-    title: `${project.title} — ${profile.name}`,
+    title: `${project.title} · ${profile.name}`,
     description: clamp(project.summary),
     ogType: "article",
     jsonLd: graph(
@@ -262,7 +273,7 @@ const projectPage = (id: string): PageSeo | null => {
 
 const notFound = (path: string): PageSeo => ({
   path,
-  title: `Page not found — ${profile.name}`,
+  title: `Page not found · ${profile.name}`,
   description: "That URL doesn't exist on this site.",
   ogType: "website",
   jsonLd: [],

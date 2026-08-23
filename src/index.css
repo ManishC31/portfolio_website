@@ -3,28 +3,42 @@
 @tailwind utilities;
 
 /*
- * Typography-driven, no web fonts. The system stack renders instantly and
- * matches the reader's platform; a downloaded face would cost a round trip
- * and a layout shift for no gain at this level of visual restraint.
+ * ---------------------------------------------------------------------------
+ * Design tokens
+ * ---------------------------------------------------------------------------
  *
- * Colour: near-black on off-white, one accent reserved for links.
+ * One accent hue (indigo-violet) with a second stop (cyan) that only ever
+ * appears inside a gradient. Keeping the second colour out of solid fills is
+ * what stops the page reading as two competing brand colours.
  *
  * Theme resolution, in precedence order:
- *   1. data-theme on <html>, an explicit choice persisted to localStorage
- *      and applied by the inline script in index.html before first paint.
- *   2. prefers-color-scheme, the OS setting, used when there is no choice yet.
- * The dark token block is duplicated rather than shared because a media query
- * and a plain attribute selector cannot be combined into one rule.
+ *   1. data-theme on <html>, an explicit choice persisted to localStorage and
+ *      applied by the inline script in index.html before first paint.
+ *   2. prefers-color-scheme, used when there is no explicit choice yet.
+ * The dark block is written twice rather than shared because a media query and
+ * a plain attribute selector cannot be combined into one rule.
  */
 
 @layer base {
   :root {
-    --background: 40 20% 98%;
-    --foreground: 30 6% 12%;
-    --muted: 30 5% 40%;
-    --faint: 36 12% 91%;
-    --border: 36 12% 87%;
-    --accent: 212 85% 34%;
+    --background: 240 25% 99%;
+    --surface: 0 0% 100%;
+    --elevated: 240 20% 97%;
+    --foreground: 232 28% 11%;
+    --muted: 232 10% 44%;
+    --faint: 240 20% 96%;
+    --border: 235 16% 90%;
+    --accent: 250 68% 55%;
+    --accent-2: 190 88% 42%;
+
+    /* Aurora blobs sit behind text, so they run far weaker in light mode —
+       the same opacity that reads as atmosphere on black reads as a stain on
+       white. */
+    --aurora-opacity: 0.5;
+    /* Which halftone screen the hero portrait uses. See .halftone-portrait. */
+    --portrait-screen: url("/portrait-halftone-on-light.svg");
+    /* Strength of the hairline highlight along the top edge of a card. */
+    --sheen: 0;
 
     color-scheme: light;
   }
@@ -32,12 +46,19 @@
   /* OS says dark, and the reader has not explicitly asked for light. */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --background: 30 6% 8%;
-      --foreground: 40 12% 90%;
-      --muted: 36 6% 62%;
-      --faint: 30 5% 14%;
-      --border: 30 5% 20%;
-      --accent: 210 80% 72%;
+      --background: 233 24% 6%;
+      --surface: 233 22% 9%;
+      --elevated: 233 20% 12%;
+      --foreground: 230 22% 96%;
+      --muted: 231 12% 64%;
+      --faint: 233 20% 13%;
+      --border: 233 16% 19%;
+      --accent: 255 92% 76%;
+      --accent-2: 190 95% 62%;
+
+      --aurora-opacity: 0.85;
+      --sheen: 0.07;
+      --portrait-screen: url("/portrait-halftone-on-dark.svg");
 
       color-scheme: dark;
     }
@@ -45,12 +66,19 @@
 
   /* Explicit choice, which wins regardless of the OS setting. */
   :root[data-theme="dark"] {
-    --background: 30 6% 8%;
-    --foreground: 40 12% 90%;
-    --muted: 36 6% 62%;
-    --faint: 30 5% 14%;
-    --border: 30 5% 20%;
-    --accent: 210 80% 72%;
+    --background: 233 24% 6%;
+    --surface: 233 22% 9%;
+    --elevated: 233 20% 12%;
+    --foreground: 230 22% 96%;
+    --muted: 231 12% 64%;
+    --faint: 233 20% 13%;
+    --border: 233 16% 19%;
+    --accent: 255 92% 76%;
+    --accent-2: 190 95% 62%;
+
+    --aurora-opacity: 0.85;
+    --sheen: 0.07;
+    --portrait-screen: url("/portrait-halftone-on-dark.svg");
 
     color-scheme: dark;
   }
@@ -61,56 +89,79 @@
 
   html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* The sticky header would otherwise cover the top of any hash target. */
+    scroll-padding-top: 5.5rem;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    @apply bg-background text-foreground font-sans antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
     font-synthesis-weight: none;
+    /* Inter's defaults leave gaps at display sizes; these tighten the fit and
+       switch on the rounder single-storey shapes for numerals. */
+    font-feature-settings: "cv05" 1, "ss03" 1;
+    /* The aurora is fixed-position and blurred well past the viewport edge. */
+    overflow-x: hidden;
   }
 
   /* Visible, high-contrast focus ring on every interactive element. */
   :focus-visible {
     outline: 2px solid hsl(var(--accent));
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: 4px;
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.18);
+    background: hsl(var(--accent) / 0.25);
   }
 
+  /*
+   * Everything decorative is motion. Readers who ask for less get a static
+   * page: no drift, no marquee, no reveal. The reveal components also check
+   * this in JS so their elements start visible rather than at opacity 0 —
+   * killing only the animation here would leave them invisible forever.
+   */
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
     *,
     *::before,
     *::after {
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
     }
   }
 }
 
 @layer components {
+  /* Text column. Wider than the old 780px because the project grid needs the
+     room; body copy is clamped separately by .prose-measure. */
   .measure {
-    @apply mx-auto w-full px-6;
-    max-width: 780px;
+    @apply mx-auto w-full px-5 sm:px-8;
+    max-width: 1120px;
   }
 
-  /* Small caps section label: hierarchy without colour or decoration. */
+  /* Reading width for paragraphs, independent of the layout width. */
+  .prose-measure {
+    max-width: 68ch;
+  }
+
+  /* Small-caps section label: hierarchy without colour or decoration. */
   .eyebrow {
     @apply text-muted font-semibold uppercase;
     font-size: 0.75rem;
-    letter-spacing: 0.09em;
+    letter-spacing: 0.1em;
   }
 
   .link {
-    @apply text-accent underline decoration-1;
-    text-underline-offset: 3px;
-    transition: text-decoration-color 120ms ease;
-    text-decoration-color: hsl(var(--accent) / 0.4);
+    @apply text-accent underline decoration-1 underline-offset-4;
+    text-decoration-color: hsl(var(--accent) / 0.35);
+    transition: text-decoration-color 150ms ease;
   }
 
   .link:hover {
@@ -120,7 +171,7 @@
   /* Quiet link for nav and metadata: inherits body colour, accents on hover. */
   .link-quiet {
     @apply text-muted no-underline;
-    transition: color 120ms ease;
+    transition: color 150ms ease;
   }
 
   .link-quiet:hover {
@@ -132,7 +183,284 @@
     font-size: 0.8125rem;
   }
 
+  /* Stack chip: a tech name, not a button. Deliberately low-contrast so a row
+     of eight does not out-shout the sentence above it. */
+  .chip {
+    @apply inline-flex items-center rounded-full border border-border bg-elevated/60 px-2.5 py-1 text-muted;
+    font-size: 0.75rem;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  /*
+   * The marquee under the hero. Larger than .chip because that strip is the
+   * one place these names are meant to be read while moving, and at 12px they
+   * were decoration rather than information.
+   */
+  .chip-lg {
+    @apply inline-flex items-center rounded-full border border-border bg-surface/70 px-4 py-2 text-foreground/85 backdrop-blur;
+    font-size: 0.9375rem;
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  /*
+   * Card surface. The ::before is a one-pixel top highlight that only shows in
+   * dark mode (--sheen is 0 in light), which is what makes a dark card read as
+   * a raised object rather than a hole cut in the page.
+   */
+  .card {
+    @apply relative overflow-hidden rounded-2xl border border-border bg-surface;
+  }
+
+  .card::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(0 0% 100% / var(--sheen)) 22%,
+      hsl(0 0% 100% / var(--sheen)) 78%,
+      transparent
+    );
+  }
+
+  /*
+   * Cursor-tracked glow, the one genuinely interactive flourish on the page.
+   * --mx/--my are written by useSpotlight() on pointer move; --spot fades the
+   * whole layer in and out so the glow does not snap on at the card edge.
+   * Both default to a harmless value, so a card that never receives a pointer
+   * (touch, keyboard) simply renders flat.
+   */
+  .card-spotlight::after {
+    content: "";
+    @apply pointer-events-none absolute -inset-px rounded-2xl;
+    opacity: var(--spot, 0);
+    transition: opacity 320ms ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--accent) / 0.16),
+      transparent 62%
+    );
+  }
+
+  /* Same idea one layer down: lights the border rather than the fill. */
+  .card-spotlight-border {
+    position: relative;
+  }
+
+  /*
+   * inset-0, not -inset-px: .card clips to its padding box, and a ring drawn a
+   * pixel outside that box is clipped away entirely — the glow simply never
+   * appeared.
+   */
+  .card-spotlight-border::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 rounded-2xl;
+    opacity: var(--spot, 0);
+    transition: opacity 320ms ease;
+    padding: 1px;
+    background: radial-gradient(
+      260px circle at var(--mx, 50%) var(--my, 50%),
+      hsl(var(--accent) / 0.95),
+      transparent 72%
+    );
+    /* Draw only the padding box: the mask punches out the interior, leaving a
+       gradient-lit 1px frame. */
+    -webkit-mask: linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  /* Accent gradient across text. Falls back to the solid accent anywhere
+     background-clip: text is unsupported. */
+  .gradient-text {
+    @apply text-accent;
+    background: linear-gradient(
+      100deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--foreground)) 34%,
+      hsl(var(--accent)) 62%,
+      hsl(var(--accent-2)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    .gradient-text {
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+  }
+
+  /* Primary call to action. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-medium no-underline;
+    font-size: 0.9375rem;
+    transition: transform 160ms ease, box-shadow 160ms ease,
+      background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .btn-primary {
+    @apply btn text-background;
+    background: linear-gradient(
+      100deg,
+      hsl(var(--accent)),
+      hsl(var(--accent-2))
+    );
+    box-shadow: 0 1px 2px hsl(var(--accent) / 0.3),
+      0 8px 24px -10px hsl(var(--accent) / 0.55);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 2px hsl(var(--accent) / 0.35),
+      0 14px 32px -10px hsl(var(--accent) / 0.7);
+  }
+
+  .btn-ghost {
+    @apply btn border border-border bg-surface/70 text-foreground backdrop-blur;
+  }
+
+  .btn-ghost:hover {
+    @apply border-accent/45 bg-elevated;
+    transform: translateY(-1px);
+  }
+
   .divider {
     @apply border-0 border-t border-border;
+  }
+
+  /*
+   * The hero portrait: the photograph redrawn as a 45-degree halftone screen
+   * by scripts/generate-portrait.mjs, used here as a mask so the dots can be
+   * filled with the theme's own accent gradient. Loading the SVG through an
+   * <img> instead would freeze whatever colour was baked into the file.
+   *
+   * --portrait-screen selects the screen matching the current theme, and a
+   * browser only fetches the one actually in use. Tone in a halftone is
+   * carried by dot size, so it cannot be inverted in CSS — hence two files
+   * rather than one plus a filter.
+   */
+  .halftone-portrait {
+    -webkit-mask-image: var(--portrait-screen);
+    mask-image: var(--portrait-screen);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: bottom center;
+    mask-position: bottom center;
+    background-image: linear-gradient(
+      170deg,
+      hsl(var(--accent)),
+      hsl(var(--accent-2))
+    );
+  }
+
+  /*
+   * Without mask support this would be an empty box, so fall back to the plain
+   * cutout photograph. Declared inside @supports, so the .webp is only ever
+   * fetched by a browser that actually needs it.
+   */
+  @supports not (
+    (mask-image: url("#m")) or (-webkit-mask-image: url("#m"))
+  ) {
+    .halftone-portrait {
+      background-image: url("/portrait.webp");
+      background-size: contain;
+      background-position: bottom center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  /*
+   * Scroll-entrance state, driven by src/components/Reveal.tsx. Written as
+   * classes rather than inline styles so the two escape hatches below can
+   * cancel it wholesale: readers who asked for less motion, and readers with
+   * no JavaScript (see the <noscript> block in index.html), who would
+   * otherwise be left staring at an opacity-0 page forever.
+   */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer utilities {
+  /*
+   * Faint graph-paper grid, faded out towards the edges so it never meets the
+   * viewport as a hard line.
+   *
+   * Apply this to a dedicated absolutely-positioned layer, never to an element
+   * that also contains content: a mask-image applies to the element's entire
+   * subtree, so anything nested inside inherits the fade and disappears.
+   */
+  .bg-grid {
+    background-image: linear-gradient(
+        to right,
+        hsl(var(--foreground) / 0.055) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        to bottom,
+        hsl(var(--foreground) / 0.055) 1px,
+        transparent 1px
+      );
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 20%,
+      transparent 78%
+    );
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 20%,
+      transparent 78%
+    );
+  }
+
+  /* Fades a horizontally scrolling strip out at both ends instead of letting
+     it collide with the viewport edge. */
+  .fade-edges {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
   }
 }

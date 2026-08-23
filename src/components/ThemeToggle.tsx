@@ -60,7 +60,7 @@ const ThemeToggle = () => {
       onClick={toggle}
       aria-label={label}
       title={label}
-      className="link-quiet -m-1 p-1 leading-none"
+      className="link-quiet rounded-full border border-transparent p-2.5 leading-none transition-colors hover:border-border hover:bg-elevated"
       suppressHydrationWarning
     >
       {theme === null ? (

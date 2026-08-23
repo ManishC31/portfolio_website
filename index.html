@@ -18,12 +18,12 @@
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
-      content="#fbfaf9"
+      content="#fcfcfe"
     />
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
-      content="#161413"
+      content="#0c0d13"
     />
 
     <meta property="og:locale" content="en" />
@@ -37,10 +37,10 @@
       Do not hand-edit one without the other, and do not move the markers.
     -->
     <!--seo:start-->
-    <title>Manish Chavan — Full-stack Software Engineer</title>
+    <title>Manish Chavan · Full-stack Software Engineer</title>
     <meta
       name="description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Full-stack engineer in Germany. Three years building production web systems with React, Node.js, TypeScript and PostgreSQL, plus generative AI."
     />
     <meta
       name="robots"
@@ -49,11 +49,11 @@
     <link rel="canonical" href="https://manishchavan.in/" />
     <meta
       property="og:title"
-      content="Manish Chavan — Full-stack Software Engineer"
+      content="Manish Chavan · Full-stack Software Engineer"
     />
     <meta
       property="og:description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Full-stack engineer in Germany. Three years building production web systems with React, Node.js, TypeScript and PostgreSQL, plus generative AI."
     />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://manishchavan.in/" />
@@ -67,14 +67,29 @@
     />
     <meta
       name="twitter:title"
-      content="Manish Chavan — Full-stack Software Engineer"
+      content="Manish Chavan · Full-stack Software Engineer"
     />
     <meta
       name="twitter:description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Full-stack engineer in Germany. Three years building production web systems with React, Node.js, TypeScript and PostgreSQL, plus generative AI."
     />
     <meta name="twitter:image" content="https://manishchavan.in/og.png" />
     <!--seo:end-->
+
+    <!--
+      Scroll-entrance elements start at opacity 0 and are revealed by an
+      IntersectionObserver. With scripting off that observer never runs, so
+      cancel the hidden state outright — the prerendered markup is complete and
+      should simply be readable.
+    -->
+    <noscript>
+      <style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
 
     <!--
       Applies a saved theme choice before first paint so the page never flashes
