@@ -31,7 +31,7 @@ const Section = ({
       </div>
 
       {title && (
-        <p className="mt-5 text-balance text-[clamp(1.5rem,3.4vw,2rem)] font-semibold leading-tight tracking-tight">
+        <p className="mt-5 text-balance text-[clamp(1.5rem,3.4vw,2rem)] font-semibold leading-[1.18] tracking-[-0.03em]">
           {title}
         </p>
       )}

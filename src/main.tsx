@@ -1,10 +1,12 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.tsx";
-// Inter, self-hosted through the bundle rather than fetched from Google Fonts:
-// no third-party request, no extra DNS round trip, and the woff2 lands on the
-// same cache-immutable /assets path as everything else. The variable build is
-// one file for every weight the page uses.
-import "@fontsource-variable/inter";
+// Geist and Geist Mono, self-hosted through the bundle rather than fetched
+// from Google Fonts: no third-party request, no extra DNS round trip, and the
+// woff2 lands on the same cache-immutable /assets path as everything else.
+// Both are variable builds — one file covers every weight the page uses, and
+// the @font-face unicode-ranges mean only the latin subset is ever fetched.
+import "@fontsource-variable/geist";
+import "@fontsource-variable/geist-mono";
 import "./index.css";
 
 const container = document.getElementById("root")!;

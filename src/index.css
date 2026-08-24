@@ -7,9 +7,11 @@
  * Design tokens
  * ---------------------------------------------------------------------------
  *
- * One accent hue (indigo-violet) with a second stop (cyan) that only ever
- * appears inside a gradient. Keeping the second colour out of solid fills is
- * what stops the page reading as two competing brand colours.
+ * One accent hue (a muted ink-indigo) and nothing else. --accent-2 is not a
+ * second colour: it is the same hue a few steps along in lightness, so the
+ * handful of places that still fade between the two read as a tonal shift
+ * rather than as a gradient. Saturation is deliberately low — the accent is
+ * meant to mark a link or a button, not to be the loudest thing on screen.
  *
  * Theme resolution, in precedence order:
  *   1. data-theme on <html>, an explicit choice persisted to localStorage and
@@ -28,13 +30,13 @@
     --muted: 232 10% 44%;
     --faint: 240 20% 96%;
     --border: 235 16% 90%;
-    --accent: 250 68% 55%;
-    --accent-2: 190 88% 42%;
+    --accent: 231 44% 42%;
+    --accent-2: 231 34% 55%;
 
     /* Aurora blobs sit behind text, so they run far weaker in light mode —
        the same opacity that reads as atmosphere on black reads as a stain on
        white. */
-    --aurora-opacity: 0.5;
+    --aurora-opacity: 0.38;
     /* Which halftone screen the hero portrait uses. See .halftone-portrait. */
     --portrait-screen: url("/portrait-halftone-on-light.svg");
     /* Strength of the hairline highlight along the top edge of a card. */
@@ -53,10 +55,10 @@
       --muted: 231 12% 64%;
       --faint: 233 20% 13%;
       --border: 233 16% 19%;
-      --accent: 255 92% 76%;
-      --accent-2: 190 95% 62%;
+      --accent: 228 58% 76%;
+      --accent-2: 228 40% 64%;
 
-      --aurora-opacity: 0.85;
+      --aurora-opacity: 0.6;
       --sheen: 0.07;
       --portrait-screen: url("/portrait-halftone-on-dark.svg");
 
@@ -73,10 +75,10 @@
     --muted: 231 12% 64%;
     --faint: 233 20% 13%;
     --border: 233 16% 19%;
-    --accent: 255 92% 76%;
-    --accent-2: 190 95% 62%;
+    --accent: 228 58% 76%;
+    --accent-2: 228 40% 64%;
 
-    --aurora-opacity: 0.85;
+    --aurora-opacity: 0.6;
     --sheen: 0.07;
     --portrait-screen: url("/portrait-halftone-on-dark.svg");
 
@@ -96,14 +98,76 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    /* 17px. Geist carries a taller x-height than the platform UI faces, so it
+       reads a size larger than the number suggests; 1.7 leading is what keeps
+       a 68ch measure comfortable at that apparent size. */
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.7;
+    /* Every weight the page uses is a real master in the variable font, so
+       synthesised bold would only ever be a smeared duplicate. */
     font-synthesis-weight: none;
-    /* Inter's defaults leave gaps at display sizes; these tighten the fit and
-       switch on the rounder single-storey shapes for numerals. */
-    font-feature-settings: "cv05" 1, "ss03" 1;
+    font-kerning: normal;
     /* The aurora is fixed-position and blurred well past the viewport edge. */
     overflow-x: hidden;
+  }
+
+  /*
+   * Heading defaults, applied to the elements rather than to utility classes
+   * so anything added later inherits them. Tailwind utilities sit in a later
+   * layer, so an explicit `tracking-*` or `leading-*` in the markup still
+   * wins — this is the floor, not an override.
+   *
+   * Tracking scales with size: the negative value that reads as crisp at 72px
+   * reads as cramped at 17px, so only the display sizes get the tight setting.
+   */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+    /* Short strings, so the slower balance algorithm is affordable here and
+       stops a two-line heading leaving one orphaned word. */
+    text-wrap: balance;
+  }
+
+  h1 {
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+  }
+
+  h2 {
+    line-height: 1.14;
+    letter-spacing: -0.028em;
+  }
+
+  h3 {
+    letter-spacing: -0.022em;
+  }
+
+  /* Ragged-right paragraphs without a stranded last word. Cheaper than
+     `balance` and correct for multi-line copy, which is why it is split from
+     the heading rule above. */
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /*
+   * Geist Mono is drawn on the same skeleton as the sans but sits optically
+   * larger at a matched px size, so it is stepped down wherever the two meet
+   * inline. Tabular figures keep dates and periods from shifting width
+   * between rows.
+   */
+  code,
+  kbd,
+  samp,
+  pre {
+    @apply font-mono;
+    font-size: 0.925em;
+    font-variant-numeric: tabular-nums slashed-zero;
   }
 
   /* Visible, high-contrast focus ring on every interactive element. */
@@ -262,7 +326,7 @@
     padding: 1px;
     background: radial-gradient(
       260px circle at var(--mx, 50%) var(--my, 50%),
-      hsl(var(--accent) / 0.95),
+      hsl(var(--accent) / 0.55),
       transparent 72%
     );
     /* Draw only the padding box: the mask punches out the interior, leaving a
@@ -274,26 +338,13 @@
     mask-composite: exclude;
   }
 
-  /* Accent gradient across text. Falls back to the solid accent anywhere
-     background-clip: text is unsupported. */
-  .gradient-text {
+  /*
+   * The one accented word in the hero. This used to be a four-stop gradient
+   * clipped to the glyphs; a solid accent says the same thing without the
+   * display-type fireworks, and it stays legible when the text is selected.
+   */
+  .accent-text {
     @apply text-accent;
-    background: linear-gradient(
-      100deg,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--foreground)) 34%,
-      hsl(var(--accent)) 62%,
-      hsl(var(--accent-2)) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
-  @supports (-webkit-background-clip: text) or (background-clip: text) {
-    .gradient-text {
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
   }
 
   /* Primary call to action. */
@@ -304,21 +355,23 @@
       background-color 160ms ease, border-color 160ms ease, color 160ms ease;
   }
 
+  /*
+   * A flat fill in the accent, not a gradient, and a neutral shadow rather
+   * than a coloured halo — a glow in the brand colour is what made the old
+   * button read as a badge instead of a control. Hover moves lightness by one
+   * step, which is the whole state change.
+   */
   .btn-primary {
     @apply btn text-background;
-    background: linear-gradient(
-      100deg,
-      hsl(var(--accent)),
-      hsl(var(--accent-2))
-    );
-    box-shadow: 0 1px 2px hsl(var(--accent) / 0.3),
-      0 8px 24px -10px hsl(var(--accent) / 0.55);
+    background: hsl(var(--accent));
+    box-shadow: 0 1px 2px hsl(232 28% 11% / 0.12),
+      0 6px 16px -10px hsl(232 28% 11% / 0.35);
   }
 
   .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 1px 2px hsl(var(--accent) / 0.35),
-      0 14px 32px -10px hsl(var(--accent) / 0.7);
+    background: hsl(var(--accent-2));
+    box-shadow: 0 1px 2px hsl(232 28% 11% / 0.16),
+      0 10px 22px -10px hsl(232 28% 11% / 0.45);
   }
 
   .btn-ghost {
@@ -354,6 +407,8 @@
     mask-repeat: no-repeat;
     -webkit-mask-position: bottom center;
     mask-position: bottom center;
+    /* Two stops of one hue: the dots shade from the accent into its lighter
+       step, which reads as depth rather than as a colour transition. */
     background-image: linear-gradient(
       170deg,
       hsl(var(--accent)),

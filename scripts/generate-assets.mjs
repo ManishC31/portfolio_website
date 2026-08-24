@@ -38,11 +38,11 @@ const COLOR = {
   foreground: "#141624",
   muted: "#65687b",
   border: "#e1e2ea",
-  accent: "#583eda",
-  accent2: "#0daac9",
+  accent: "#3c4a9a",
+  accent2: "#6571b3",
 };
 
-// The site loads Inter, but this page is rendered by a headless Chromium that
+// The site loads Geist, but this page is rendered by a headless Chromium that
 // has no access to the bundle's woff2, so the card uses the platform UI stack
 // deliberately rather than silently falling back to it.
 const FONT = `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
@@ -82,13 +82,9 @@ const ogCard = `<!doctype html>
         letter-spacing: -0.03em;
         line-height: 1.05;
       }
-      /* Mirrors .gradient-text in index.css: the surname carries the accent. */
-      h1 .accent {
-        background: linear-gradient(100deg, ${COLOR.accent}, ${COLOR.accent2});
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+      /* Mirrors .accent-text in index.css: the surname carries the accent, as
+         one flat colour rather than a gradient. */
+      h1 .accent { color: ${COLOR.accent}; }
       .role { margin-top: 20px; font-size: 36px; color: ${COLOR.muted}; }
       hr { margin: 44px 0; border: 0; border-top: 2px solid ${COLOR.border}; }
       .stack { font-size: 27px; color: ${COLOR.muted}; }

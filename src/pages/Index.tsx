@@ -81,8 +81,13 @@ const Hero = () => (
           </Reveal>
 
           <Reveal delay={60}>
-            <h1 className="mt-7 text-balance text-[clamp(2.5rem,7.5vw,4.5rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-              <span className="gradient-text">{profile.name}</span>
+            {/* Given name in ink, family name in the accent — the same split
+                the social card uses, so an unfurl and the page agree. */}
+            <h1 className="mt-7 text-balance text-[clamp(2.5rem,7.5vw,4.5rem)] font-bold leading-[1.02] tracking-[-0.035em]">
+              {profile.name.split(" ")[0]}{" "}
+              <span className="accent-text">
+                {profile.name.split(" ").slice(1).join(" ")}
+              </span>
             </h1>
           </Reveal>
 
@@ -195,12 +200,12 @@ const ContactPanel = () => (
       className="pointer-events-none absolute inset-0"
       style={{
         background:
-          "radial-gradient(90% 120% at 15% 0%, hsl(var(--accent) / 0.14), transparent 55%), radial-gradient(80% 120% at 100% 100%, hsl(var(--accent-2) / 0.12), transparent 55%)",
+          "radial-gradient(90% 120% at 15% 0%, hsl(var(--accent) / 0.08), transparent 55%), radial-gradient(80% 120% at 100% 100%, hsl(var(--accent-2) / 0.06), transparent 55%)",
       }}
     />
 
     <div className="relative">
-      <p className="text-balance text-[clamp(1.5rem,3.6vw,2.125rem)] font-semibold leading-tight tracking-tight">
+      <p className="text-balance text-[clamp(1.5rem,3.6vw,2.125rem)] font-semibold leading-[1.18] tracking-[-0.03em]">
         Looking for someone who can own a system end to end?
       </p>
       <p className="prose-measure mt-4 text-pretty text-muted">

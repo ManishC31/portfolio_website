@@ -29,12 +29,14 @@ export default {
         accent2: "hsl(var(--accent-2))",
       },
       fontFamily: {
-        // Variable Inter, self-hosted (see main.tsx). The fallbacks are the
-        // platform UI faces, so a font failure degrades to the old look
-        // rather than to Times New Roman.
+        // Variable Geist, self-hosted (see main.tsx). A geometric grotesque:
+        // slightly wider apertures and a taller x-height than the platform UI
+        // faces, which is what buys the extra legibility at 17px. The
+        // fallbacks are those platform faces, so a font failure degrades to
+        // the old look rather than to Times New Roman.
         sans: [
-          "Inter Variable",
-          "Inter",
+          "Geist Variable",
+          "Geist",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
@@ -44,7 +46,12 @@ export default {
           "Arial",
           "sans-serif",
         ],
+        // Geist Mono is the matching monospace — same skeleton as the sans, so
+        // dates and handles set in it sit next to body copy without reading as
+        // a different voice.
         mono: [
+          "Geist Mono Variable",
+          "Geist Mono",
           "ui-monospace",
           "SFMono-Regular",
           "SF Mono",

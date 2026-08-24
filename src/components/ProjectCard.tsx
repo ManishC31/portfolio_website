@@ -91,7 +91,7 @@ const NoPreview = ({ project }: { project: Project }) => (
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(120% 90% at 20% 0%, hsl(var(--accent) / 0.26), transparent 62%), radial-gradient(90% 80% at 90% 100%, hsl(var(--accent-2) / 0.18), transparent 62%)",
+            "radial-gradient(120% 90% at 20% 0%, hsl(var(--accent) / 0.14), transparent 62%), radial-gradient(90% 80% at 90% 100%, hsl(var(--accent-2) / 0.1), transparent 62%)",
         }}
       />
 
@@ -99,7 +99,7 @@ const NoPreview = ({ project }: { project: Project }) => (
           the real title directly beneath it. */}
       <p
         aria-hidden="true"
-        className="relative select-none text-balance text-center text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.04em] text-foreground/35"
+        className="relative select-none text-balance text-center text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.035em] text-foreground/35"
       >
         {project.title}
       </p>
