@@ -1,67 +1,52 @@
-import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import PostCard from "@/components/PostCard";
+import PublicationCard from "@/components/PublicationCard";
+import Reveal from "@/components/Reveal";
 import { posts, publications } from "@/data/writing";
 
 const AllBlogs = () => (
   <Layout>
-    <div className="measure py-12">
-      <p className="text-[0.9375rem]">
-        <Link to="/#writing" className="link-quiet">
-          ← Back
-        </Link>
-      </p>
+    <div className="px-6 pt-[clamp(128px,17vw,176px)]">
+      <div className="container-site">
+        <header className="max-w-[900px]">
+          <p className="eyebrow">Writing</p>
+          <h1 className="h-page mt-2.5">
+            Notes on system design and applied AI,{" "}
+            <span className="text-faint">published on Hashnode.</span>
+          </h1>
+        </header>
 
-      <h1 className="mt-6 text-[clamp(1.5rem,4vw,2rem)] font-bold tracking-tight">
-        Writing
-      </h1>
-      <p className="mt-2 text-muted">
-        Notes on system design and applied AI, published on Hashnode.
-      </p>
+        <ul className="mt-14 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, index) => (
+            <li key={post.link}>
+              <PostCard post={post} index={index} heading="h2" />
+            </li>
+          ))}
+        </ul>
 
-      <ul className="mt-10 space-y-8">
-        {posts.map((post) => (
-          <li key={post.link} className="border-t border-border pt-6">
-            <h2 className="text-[1.0625rem] font-semibold">
-              <a
-                href={post.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="link"
-              >
-                {post.title}
-              </a>
+        <section aria-labelledby="publications-h" className="pt-[clamp(72px,9vw,112px)]">
+          <Reveal>
+            <p className="eyebrow">Research</p>
+            <h2
+              id="publications-h"
+              className="mt-2.5 text-[clamp(28px,3.4vw,44px)] font-semibold leading-[1.14] tracking-[-0.035em]"
+            >
+              Publications
             </h2>
-            <p className="mt-2 text-muted">{post.description}</p>
-            <p className="mt-2 tag">{post.topic}</p>
-          </li>
-        ))}
-      </ul>
+          </Reveal>
 
-      <h2 className="eyebrow mt-16 block">Publications</h2>
-      <ul className="mt-6 space-y-8">
-        {publications.map((pub) => (
-          <li key={pub.title} className="border-t border-border pt-6">
-            <h3 className="text-[1.0625rem] font-semibold">
-              {pub.link ? (
-                <a
-                  href={pub.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link"
-                >
-                  {pub.title}
-                </a>
-              ) : (
-                pub.title
-              )}
-            </h3>
-            <p className="mt-1 tag">
-              {pub.venue}, {pub.year}
-            </p>
-            <p className="mt-2 text-muted">{pub.description}</p>
-          </li>
-        ))}
-      </ul>
+          <div className="mt-8 grid grid-cols-1 gap-3">
+            {publications.map((publication) => (
+              <Reveal key={publication.title} className="flex">
+                <PublicationCard
+                  publication={publication}
+                  className="min-h-[260px] w-full"
+                />
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   </Layout>
 );

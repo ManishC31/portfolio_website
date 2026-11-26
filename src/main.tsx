@@ -1,6 +1,14 @@
 import { createRoot, hydrateRoot } from "react-dom/client";
+// Self-hosted, variable-weight Geist. Imported here rather than in index.css so
+// the build-time render (entry-server.tsx) never touches a stylesheet.
+import "@fontsource-variable/geist/wght.css";
+import "@fontsource-variable/geist-mono/wght.css";
 import App from "./App.tsx";
 import "./index.css";
+
+// Read by the inline script in index.html: if this flag never appears, the
+// bundle failed to load and the scroll-reveal styles are switched back off.
+window.__appBooted = true;
 
 const container = document.getElementById("root")!;
 

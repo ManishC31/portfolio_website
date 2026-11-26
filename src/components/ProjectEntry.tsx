@@ -1,72 +1,64 @@
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import ProjectLinks from "@/components/ProjectLinks";
+import ProjectMock from "@/components/mocks/ProjectMock";
 import type { Project } from "@/data/projects";
 
-/** Renders the five things a reviewer needs: what, role, stack, hard part, links. */
-const ProjectEntry = ({ project }: { project: Project }) => {
-  const links = project.githubLinks ?? (
-    project.githubLink ? [{ label: "Source", url: project.githubLink }] : []
-  );
+/**
+ * A project on the list page. Renders the five things a reviewer needs: what
+ * it is, the role, the stack, the hard part, and the links.
+ */
+const ProjectEntry = ({ project }: { project: Project }) => (
+  <article className="card gap-8 lg:grid lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
+    <div className="flex min-w-0 flex-col items-start">
+      <span className="chip">{project.category}</span>
 
-  return (
-    <article className="border-t border-border pt-6">
-      <h3 className="text-[1.0625rem] font-semibold">
-        <Link to={`/project/${project.id}`} className="link">
+      <h2 className="mt-4 text-[clamp(26px,2.8vw,34px)] font-semibold leading-[1.15] tracking-[-0.03em]">
+        <Link
+          to={`/project/${project.id}`}
+          className="transition-colors duration-150 hover:text-body"
+        >
           {project.title}
         </Link>
-      </h3>
+      </h2>
+      <p className="mt-3 text-[17px] leading-[1.55] text-body [text-wrap:pretty]">
+        {project.summary}
+      </p>
 
-      <p className="mt-2">{project.summary}</p>
-
-      <dl className="mt-4 space-y-3">
-        <div>
-          <dt className="eyebrow">Role</dt>
-          <dd className="mt-1 text-muted">{project.role}</dd>
+      <dl className="mt-6 w-full">
+        <div className="border-t border-line py-4">
+          <dt className="label">Role</dt>
+          <dd className="copy mt-1.5">{project.role}</dd>
         </div>
-        <div>
-          <dt className="eyebrow">Hard part</dt>
-          <dd className="mt-1 text-muted">{project.hardPart}</dd>
+        <div className="border-t border-line py-4">
+          <dt className="label">Hard part</dt>
+          <dd className="copy mt-1.5">{project.hardPart}</dd>
         </div>
-        <div>
-          <dt className="eyebrow">Stack</dt>
-          <dd className="mt-1 tag">{project.techStack.join(" · ")}</dd>
+        <div className="border-t border-line pt-4">
+          <dt className="label">Stack</dt>
+          <dd className="mt-2.5">
+            <ul className="flex flex-wrap gap-2">
+              {project.techStack.map((tech) => (
+                <li key={tech} className="token">
+                  {tech}
+                </li>
+              ))}
+            </ul>
+          </dd>
         </div>
       </dl>
 
-      <p className="mt-4 text-[0.9375rem]">
-        {project.liveLink && (
-          <>
-            <a
-              href={project.liveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              Live demo
-            </a>
-            {(links.length > 0 || project.proprietaryNote) && (
-              <span className="text-muted"> · </span>
-            )}
-          </>
-        )}
-        {links.map((link, i) => (
-          <span key={link.url}>
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link"
-            >
-              {link.label === "Source" ? "Source" : `Source: ${link.label}`}
-            </a>
-            {i < links.length - 1 && <span className="text-muted"> · </span>}
-          </span>
-        ))}
-        {project.proprietaryNote && (
-          <span className="text-muted">{project.proprietaryNote}</span>
-        )}
-      </p>
-    </article>
-  );
-};
+      <div className="mt-7 flex flex-wrap items-center gap-2">
+        <ProjectLinks project={project} />
+        <Link to={`/project/${project.id}`} className="btn btn-md px-3 text-ink hover:bg-ink/[0.06]">
+          Read more
+          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+        </Link>
+      </div>
+    </div>
+
+    <ProjectMock id={project.id} className="mx-auto w-full max-w-[440px]" />
+  </article>
+);
 
 export default ProjectEntry;

@@ -1,6 +1,8 @@
 export interface Project {
   id: string;
   title: string;
+  /** A handful of words for the home page tile. Paraphrases `summary`. */
+  tagline: string;
   /** One line: what it does. */
   summary: string;
   /** Scope and ownership: what was actually mine. */
@@ -25,6 +27,7 @@ export const projects: Project[] = [
   {
     id: "ai-interview-platform",
     title: "AI Interview Platform",
+    tagline: "Generates technical interview questions and scores the answers.",
     summary:
       "Assessment product that generates technical interview questions on the fly and scores candidate responses automatically.",
     role: "Built at Assesshub on Next.js and TypeScript, covering question generation, the evaluation pipeline and the candidate-facing interface.",
@@ -46,6 +49,7 @@ export const projects: Project[] = [
   {
     id: "docrag",
     title: "DocRAG",
+    tagline: "Answers questions from your own PDFs, grounded in the files.",
     summary:
       "Retrieval-augmented Q&A over your own documents. Upload PDFs into groups, ask questions, and get answers grounded in the files rather than the model's general knowledge.",
     role: "Sole engineer. React and shadcn/ui frontend, FastAPI backend, and the full ingestion-to-retrieval pipeline.",
@@ -79,6 +83,7 @@ export const projects: Project[] = [
   {
     id: "invoicer",
     title: "Invoicer",
+    tagline: "Self-hosted invoicing with server-generated PDFs.",
     summary:
       "Self-hosted invoicing with client records, itemised invoices carrying tax and due dates, server-generated PDFs, and a dashboard for billed, collected and outstanding totals.",
     role: "Sole engineer. Next.js 14 App Router with server actions, Prisma over PostgreSQL, and the PDF generation and storage path.",
@@ -104,6 +109,7 @@ export const projects: Project[] = [
   {
     id: "lumochat",
     title: "LumoChat",
+    tagline: "Real-time messaging with presence, history and media.",
     summary:
       "Real-time messaging with typing indicators, online presence, paginated history and a media gallery for images, video and audio.",
     role: "Sole engineer across both services: a React frontend and an Express and Socket.io backend, deployed separately.",
@@ -137,6 +143,7 @@ export const projects: Project[] = [
   {
     id: "expression-music-recommendation",
     title: "Expression-Based Music Recommendation",
+    tagline: "Reads a facial expression and recommends music to match.",
     summary:
       "Android app that reads facial expression through the camera and recommends music matching the detected mood. Basis for a published paper.",
     role: "Built the Flutter application and integrated the CNN model, including the optimisation work for on-device inference.",

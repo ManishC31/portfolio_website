@@ -3,136 +3,339 @@
 @tailwind utilities;
 
 /*
- * Typography-driven, no web fonts. The system stack renders instantly and
- * matches the reader's platform; a downloaded face would cost a round trip
- * and a layout shift for no gain at this level of visual restraint.
+ * Design system
  *
- * Colour: near-black on off-white, one accent reserved for links.
+ * White page, near-black ink, a ladder of greys, and no accent colour. Cards
+ * are flat grey fills rather than bordered or shadowed boxes; shadows are kept
+ * for the floating mock windows only. Type is Geist throughout, with Geist Mono
+ * for small technical labels.
  *
- * Theme resolution, in precedence order:
- *   1. data-theme on <html>, an explicit choice persisted to localStorage
- *      and applied by the inline script in index.html before first paint.
- *   2. prefers-color-scheme, the OS setting, used when there is no choice yet.
- * The dark token block is duplicated rather than shared because a media query
- * and a plain attribute selector cannot be combined into one rule.
+ * Light only. There is no dark palette and no theme switch: colour tokens are
+ * plain hex in tailwind.config.ts.
+ *
+ * The fonts are self-hosted (bundled from @fontsource in main.tsx), so no
+ * request leaves for a third-party font CDN.
  */
 
 @layer base {
+  /*
+   * Arial, re-proportioned to Geist's metrics. Text laid out in the fallback
+   * occupies the same space as the web font, so the swap does not move the
+   * page. Values are the ones next/font computes for Geist over Arial.
+   */
+  @font-face {
+    font-family: "Geist Fallback";
+    src: local("Arial");
+    ascent-override: 95.94%;
+    descent-override: 28.16%;
+    line-gap-override: 0%;
+    size-adjust: 104.76%;
+  }
+
   :root {
-    --background: 40 20% 98%;
-    --foreground: 30 6% 12%;
-    --muted: 30 5% 40%;
-    --faint: 36 12% 91%;
-    --border: 36 12% 87%;
-    --accent: 212 85% 34%;
+    /* Vertical rhythm between sections: 168px on desktop, eased on phones. */
+    --section-gap: clamp(96px, 13vw, 168px);
 
     color-scheme: light;
   }
 
-  /* OS says dark, and the reader has not explicitly asked for light. */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --background: 30 6% 8%;
-      --foreground: 40 12% 90%;
-      --muted: 36 6% 62%;
-      --faint: 30 5% 14%;
-      --border: 30 5% 20%;
-      --accent: 210 80% 72%;
-
-      color-scheme: dark;
-    }
-  }
-
-  /* Explicit choice, which wins regardless of the OS setting. */
-  :root[data-theme="dark"] {
-    --background: 30 6% 8%;
-    --foreground: 40 12% 90%;
-    --muted: 36 6% 62%;
-    --faint: 30 5% 14%;
-    --border: 30 5% 20%;
-    --accent: 210 80% 72%;
-
-    color-scheme: dark;
-  }
-
   * {
-    @apply border-border;
+    @apply border-line;
   }
 
   html {
     -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    @apply bg-white font-sans text-ink antialiased;
+    font-size: 1rem;
+    line-height: 1.5;
     font-synthesis-weight: none;
+    /* Guards against the marquee and oversized footer wordmark. */
+    overflow-x: clip;
   }
 
   /* Visible, high-contrast focus ring on every interactive element. */
   :focus-visible {
-    outline: 2px solid hsl(var(--accent));
+    outline: 2px solid theme("colors.ink.DEFAULT");
     outline-offset: 3px;
-    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible,
+  .on-dark:focus-visible {
+    outline-color: #fff;
   }
 
   ::selection {
-    background: hsl(var(--accent) / 0.18);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      transition-duration: 0.01ms !important;
-      animation-duration: 0.01ms !important;
-    }
+    background: theme("colors.ink.DEFAULT");
+    color: #fff;
   }
 }
 
 @layer components {
-  .measure {
-    @apply mx-auto w-full px-6;
-    max-width: 780px;
+  /* ---------------------------------------------------------------- layout */
+
+  .container-site {
+    @apply mx-auto w-full max-w-site;
   }
 
-  /* Small caps section label: hierarchy without colour or decoration. */
+  /*
+   * A page section. The gap is padding rather than margin so an in-page anchor
+   * can land the heading a fixed distance below the floating nav: the negative
+   * scroll margin cancels most of the padding.
+   */
+  .section {
+    @apply px-6;
+    padding-top: var(--section-gap);
+    scroll-margin-top: calc(112px - var(--section-gap));
+  }
+
+  /* ------------------------------------------------------------ typography */
+
+  /* Hero headline. The min() keeps the longest rotating phrase on one line at
+     320px; from ~650px up it follows the same curve as a 6.8vw display size. */
+  .display {
+    font-size: clamp(34px, min(10.6vw, max(44px, 6.8vw)), 96px);
+    font-weight: 600;
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+  }
+
+  .h-page {
+    font-size: clamp(38px, 5.6vw, 72px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .h-section {
+    font-size: clamp(34px, 4.8vw, 64px);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .h-cta {
+    font-size: clamp(34px, 5.8vw, 80px);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+  }
+
+  .h-card {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  /* The quiet line above a section heading. Sentence case, not small caps. */
   .eyebrow {
-    @apply text-muted font-semibold uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.09em;
+    @apply text-subtle;
+    font-size: 15px;
+    line-height: 1.4;
   }
 
+  .lead {
+    @apply text-muted;
+    font-size: 18px;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .copy {
+    @apply text-muted;
+    font-size: 15px;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  /* Small technical label: dates, categories, field names. */
+  .label {
+    @apply font-mono uppercase text-subtle;
+    font-size: 11.5px;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+  }
+
+  .card-dark .label {
+    @apply text-white/60;
+  }
+
+  /* The fade on the last line of the hero and on the 404 numerals. */
+  .ink-fade {
+    background: linear-gradient(180deg, #111 0%, #111 25%, #c9c9c9 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /*
+   * The giant faded name that closes the footer. Sized from the viewport so it
+   * always spans the container on one line. "Manish Chavan" measures about
+   * 6.6em at this weight and tracking; dividing by 6.9 leaves a little air, and
+   * the cap is where that width meets the 1240px container. A different name
+   * needs a different divisor and cap.
+   */
+  .wordmark {
+    font-size: clamp(40px, calc((100vw - 48px) / 6.9), 180px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    /* Negative tracking trims the box on the right only, which would pull the
+       centred name off-centre; pad the same amount back. */
+    padding: 0 0.07em 0.06em 0;
+    background: linear-gradient(180deg, #e6e6e6, #ffffff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* --------------------------------------------------------------- buttons */
+
+  .btn {
+    @apply inline-flex shrink-0 select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-lg {
+    @apply h-[52px] gap-[9px] px-[26px] text-[16px];
+  }
+
+  .btn-md {
+    @apply h-11 px-5 text-[15px];
+  }
+
+  .btn-sm {
+    @apply h-9 px-3.5 text-[13px];
+  }
+
+  .btn-dark {
+    @apply bg-ink text-white hover:bg-ink-2;
+  }
+
+  .btn-chip {
+    @apply bg-chip text-ink hover:bg-chip-hover;
+  }
+
+  /* On a grey card, where the chip grey would disappear. */
+  .btn-white {
+    @apply bg-white text-ink hover:bg-chip-hover;
+  }
+
+  .btn-ghost-dark {
+    @apply bg-white/10 text-white hover:bg-white/20;
+  }
+
+  /* ----------------------------------------------------------------- cards */
+
+  .card {
+    @apply flex min-w-0 flex-col overflow-hidden rounded-[28px] bg-surface p-8 max-sm:rounded-[24px] max-sm:p-6;
+  }
+
+  .card-dark {
+    @apply bg-ink text-white;
+  }
+
+  /* Small pill: categories, statuses, counts. */
+  .chip {
+    @apply inline-flex h-[26px] shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full bg-ink/[0.06] px-2.5 font-mono text-[11px] uppercase tracking-[0.06em] text-[#444];
+  }
+
+  .card-dark .chip,
+  .chip-on-dark {
+    @apply bg-white/10 text-white/80;
+  }
+
+  /* Larger token: a tool in the stack, a tech on a project. */
+  .token {
+    @apply inline-flex items-center rounded-[14px] bg-white px-3.5 py-2.5 text-[15px] font-medium leading-none text-ink;
+  }
+
+  .card-dark .token {
+    @apply bg-white/10 text-white;
+  }
+
+  /* Inline text link inside running copy. */
   .link {
-    @apply text-accent underline decoration-1;
-    text-underline-offset: 3px;
-    transition: text-decoration-color 120ms ease;
-    text-decoration-color: hsl(var(--accent) / 0.4);
+    @apply text-ink underline decoration-line-strong decoration-1 underline-offset-[3px];
+    transition: text-decoration-color 150ms ease;
   }
 
   .link:hover {
-    text-decoration-color: hsl(var(--accent));
+    text-decoration-color: theme("colors.ink.DEFAULT");
   }
 
-  /* Quiet link for nav and metadata: inherits body colour, accents on hover. */
-  .link-quiet {
-    @apply text-muted no-underline;
-    transition: color 120ms ease;
+  .on-dark .link {
+    @apply text-white decoration-white/40;
   }
 
-  .link-quiet:hover {
-    @apply text-foreground;
+  .on-dark .link:hover {
+    text-decoration-color: #fff;
+  }
+}
+
+/*
+ * Scroll reveal
+ *
+ * Content is fully visible in the prerendered HTML. The inline script in
+ * index.html adds .reveal-on to <html> before first paint, only when
+ * IntersectionObserver exists, the reader has not asked for reduced motion,
+ * and the page is not being reloaded or returned to through history. From then
+ * on each [data-reveal] element waits below its resting position until
+ * <Reveal> marks it [data-revealed].
+ *
+ * No JavaScript, no IntersectionObserver, or a bundle that never boots (the
+ * script removes the class again after a timeout): everything simply shows.
+ */
+html.reveal-on [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.reveal-on [data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/* The "Pause animations" control: freezes every CSS animation in place. */
+html[data-motion="paused"] *,
+html[data-motion="paused"] *::before,
+html[data-motion="paused"] *::after {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 
-  .tag {
-    @apply inline-block text-muted;
-    font-size: 0.8125rem;
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
   }
 
-  .divider {
-    @apply border-0 border-t border-border;
+  html.reveal-on [data-reveal] {
+    opacity: 1;
+    transform: none;
   }
 }

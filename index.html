@@ -14,16 +14,20 @@
     <link rel="icon" href="/favicon-180.png" sizes="180x180" type="image/png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- Matches --background in index.css so the browser chrome blends in. -->
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: light)"
-      content="#fbfaf9"
-    />
-    <meta
-      name="theme-color"
-      media="(prefers-color-scheme: dark)"
-      content="#161413"
+    <!-- The page background, so the browser chrome blends in. Light only. -->
+    <meta name="theme-color" content="#ffffff" />
+
+    <!--
+      The one font file the first screen cannot render without. Preloading it
+      lets the headline paint in Geist instead of swapping in a beat later.
+      Vite rewrites this path to the same hashed file the stylesheet uses.
+    -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2"
+      crossorigin
     />
 
     <meta property="og:locale" content="en" />
@@ -40,7 +44,7 @@
     <title>Manish Chavan — Full-stack Software Engineer</title>
     <meta
       name="description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Master's student in Web and Data Science and working student in Berlin, with three years building production web systems in React, Node.js and PostgreSQL."
     />
     <meta
       name="robots"
@@ -53,7 +57,7 @@
     />
     <meta
       property="og:description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Master's student in Web and Data Science and working student in Berlin, with three years building production web systems in React, Node.js and PostgreSQL."
     />
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://manishchavan.in/" />
@@ -71,22 +75,43 @@
     />
     <meta
       name="twitter:description"
-      content="Full-stack engineer in Berlin, Germany. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features."
+      content="Master's student in Web and Data Science and working student in Berlin, with three years building production web systems in React, Node.js and PostgreSQL."
     />
     <meta name="twitter:image" content="https://manishchavan.in/og.png" />
     <!--seo:end-->
 
     <!--
-      Applies a saved theme choice before first paint so the page never flashes
-      the wrong colours. With no saved choice the attribute stays off and the
-      stylesheet falls back to prefers-color-scheme.
+      Arms the scroll-reveal styles in index.css before first paint, so
+      below-the-fold sections never flash in and then hide.
+
+      Skipped entirely when:
+        - the reader prefers reduced motion;
+        - the browser lacks IntersectionObserver;
+        - the page is being reloaded or returned to with back/forward. The
+          browser is about to restore the scroll position against the page as
+          laid out, and elements still shifted down waiting to be revealed
+          would throw that off by the shift distance. A returning reader has
+          also seen the entrance once already.
+
+      And undone after a timeout if the bundle never boots, so content can
+      never be left invisible.
     -->
     <script>
       (function () {
         try {
-          var t = localStorage.getItem("theme");
-          if (t === "light" || t === "dark")
-            document.documentElement.setAttribute("data-theme", t);
+          var d = document.documentElement;
+          if (!("IntersectionObserver" in window)) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
+          var nav =
+            performance.getEntriesByType &&
+            performance.getEntriesByType("navigation")[0];
+          if (nav && (nav.type === "reload" || nav.type === "back_forward"))
+            return;
+          d.classList.add("reveal-on");
+          setTimeout(function () {
+            if (!window.__appBooted) d.classList.remove("reveal-on");
+          }, 4000);
         } catch (e) {}
       })();
     </script>

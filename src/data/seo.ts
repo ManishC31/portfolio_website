@@ -118,7 +118,7 @@ const home = (): PageSeo => ({
   path: "/",
   title: `${profile.name} — ${profile.role}`,
   description: clamp(
-    `Full-stack engineer in ${profile.location}. Three years building production web systems in React, Node.js, TypeScript and PostgreSQL, plus generative AI features.`,
+    "Master's student in Web and Data Science and working student in Berlin, with three years building production web systems in React, Node.js and PostgreSQL.",
   ),
   ogType: "profile",
   jsonLd: graph(person, website, {

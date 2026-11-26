@@ -7,14 +7,65 @@ export const profile = {
   // previous site already published. A case-sensitive host would 404 on any
   // other spelling, and macOS will not surface that locally.
   cv: "/manish_chavan_cv.pdf",
-  // Every sentence below is backed by the CV. Keep it that way.
-  intro: [
-    "Full-stack engineer with more than three years building and scaling production web systems. At Assesshub I led a team of two to four engineers and owned 3+ full-stack products from architecture through deployment, running at 25,000+ monthly active users on 99.9% uptime.",
-    "Currently a Werkstudent at Absora GmbH in Berlin, working across Odoo ERP integration, the company's web presence, and generative AI applications built for internal use.",
-    "My work sits mostly on the backend: API design, PostgreSQL and MongoDB schemas over a million-plus records, and caching under concurrent load, alongside shipping generative AI features into systems people depend on.",
-    "Pursuing an M.Sc. in Web and Data Science at Universität Koblenz. German work permit holder.",
-  ],
-  availability: "Looking for full-time engineering roles, remote or on-site.",
+  /*
+   * The hero headline reads "I build <phrase> people rely on.", cycling through
+   * the phrases below. Each one names a kind of work the CV evidences; the
+   * closing clause paraphrases the last item of the "Focus" card further down.
+   * Keep them short: the longest must fit one line at 320px.
+   */
+  hero: {
+    opening: "I build",
+    phrases: ["web platforms", "AI features", "backend systems"],
+    closing: "people rely on.",
+    lead: "Master's student in Web and Data Science at the University of Koblenz and working student at a Berlin-based company, with more than three years of building and scaling production web systems behind me.",
+  },
+  /*
+   * The About section: four cards, each a short statement with its supporting
+   * facts pulled out so they can be scanned rather than read.
+   *
+   * Every line is backed by the CV. Keep it that way. Each card restates one
+   * paragraph of the CV summary; nothing here is new information.
+   */
+  about: {
+    trackRecord: {
+      label: "Track record",
+      headline:
+        "More than three years building and scaling production web systems.",
+      text: "At Assesshub I led the team and owned each product from architecture through deployment.",
+      facts: [
+        { value: "2–4", label: "engineers led" },
+        { value: "3+", label: "full-stack products owned" },
+        { value: "End to end", label: "architecture through deployment" },
+      ],
+    },
+    now: {
+      label: "Right now",
+      headline: "Werkstudent at Absora GmbH in Berlin.",
+      items: [
+        "Odoo ERP integration",
+        "The company's web presence",
+        "Generative AI applications for internal use",
+      ],
+    },
+    background: {
+      label: "Background",
+      headline:
+        "Pursuing an M.Sc. in Web and Data Science at Universität Koblenz.",
+      items: ["German work permit holder"],
+    },
+    focus: {
+      label: "Focus",
+      headline: "My work sits mostly on the backend.",
+      items: [
+        "API design",
+        "PostgreSQL and MongoDB schemas over a million-plus records",
+        "Caching under concurrent load",
+        "Generative AI features in systems people depend on",
+      ],
+    },
+  },
+  availability:
+    "Looking for part-time or full-time engineering roles, remote or on-site.",
   links: [
     {
       label: "GitHub",
@@ -29,6 +80,38 @@ export const profile = {
   ],
   languages: "English C1 · German A2 · Marathi (native)",
 } as const;
+
+/*
+ * The four numbers in the panel under the hero. Each is lifted from a bullet in
+ * experience.ts (Assesshub) or from the About cards above; none is new information.
+ * Change them there first.
+ */
+export const stats = [
+  {
+    field: "Scale",
+    value: "25,000+",
+    label: "monthly active users",
+    detail: "React and Next.js applications on a Node.js backend at Assesshub.",
+  },
+  {
+    field: "Reliability",
+    value: "99.9%",
+    label: "uptime held",
+    detail: "Through structured logging, monitoring and deployment practice.",
+  },
+  {
+    field: "Data",
+    value: "1M+",
+    label: "records",
+    detail: "PostgreSQL and MongoDB schemas, with indexes and queries tuned as volume grew.",
+  },
+  {
+    field: "Experience",
+    value: "3+",
+    label: "years in production",
+    detail: "Leading a team of two to four engineers from architecture through deployment.",
+  },
+] as const;
 
 // Only tools evidenced by the CV or by a shipped project in projects.ts.
 // Redis and the Odoo/GenAI/SEO group arrived with the Jul 2026 CV. GraphQL,

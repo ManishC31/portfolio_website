@@ -4,18 +4,23 @@ import ProjectDetails from "./pages/ProjectDetails.tsx";
 import AllProjects from "./pages/AllProjects.tsx";
 import AllBlogs from "./pages/AllBlogs.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import ScrollManager from "./components/ScrollManager.tsx";
 
 // Routes are unchanged from the previous site so existing shared links resolve.
 // Split out from the router so the build can render them through a StaticRouter
 // (see entry-server.tsx) while the browser gets a BrowserRouter.
 export const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/project/:id" element={<ProjectDetails />} />
-    <Route path="/projects" element={<AllProjects />} />
-    <Route path="/blogs" element={<AllBlogs />} />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
+  <>
+    {/* Outside <Routes> on purpose: it has to survive every navigation. */}
+    <ScrollManager />
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/project/:id" element={<ProjectDetails />} />
+      <Route path="/projects" element={<AllProjects />} />
+      <Route path="/blogs" element={<AllBlogs />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </>
 );
 
 const App = () => (
