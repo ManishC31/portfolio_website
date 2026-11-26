@@ -15,7 +15,11 @@
       ]
     },
     {
-      "source": "/(og.png|favicon-32.png|favicon-180.png|apple-touch-icon.png|hacker.png)",
+      "source": "/(og.png|favicon-32.png|favicon-180.png|apple-touch-icon.png|hacker.png|portrait.png|portrait.webp|portrait-halftone-on-dark.svg|portrait-halftone-on-light.svg)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/shots/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
     },
     {

@@ -24,7 +24,7 @@ import { FlipWords } from "@/components/aceternity/flip-words";
 import { InfiniteMovingCards } from "@/components/aceternity/infinite-moving-cards";
 import { Timeline } from "@/components/aceternity/timeline";
 import { education, roles } from "@/data/experience";
-import { profile, stack, stats } from "@/data/profile";
+import { allTools, profile, stack, stats } from "@/data/profile";
 import { featuredProjects } from "@/data/projects";
 import { posts, publications } from "@/data/writing";
 import { useMotionPaused } from "@/lib/motion-pref";
@@ -67,8 +67,13 @@ const BENTO: {
   { className: "min-h-[250px]", dark: true },
 ];
 
-/** Every tool across the stack groups, for the strip under the hero. */
-const tools = stack.flatMap((group) => [...group.items]);
+/*
+ * Stack groups that take two of the three columns on desktop. With seven
+ * groups this fills three rows exactly (1+2, 1+1+1, 2+1) instead of leaving
+ * one card alone on a fourth. Purely a layout choice: a renamed or added group
+ * still renders, the last row just may not come out even.
+ */
+const WIDE_STACK_GROUPS = new Set<string>(["AI", "Infrastructure"]);
 
 const Index = () => {
   const paused = useMotionPaused();
@@ -192,7 +197,7 @@ const Index = () => {
               ambience, so it is hidden from assistive tech. */}
           <div aria-hidden="true" className="w-full min-w-0 md:flex-1">
             <InfiniteMovingCards
-              items={tools}
+              items={allTools}
               getKey={(tool) => tool}
               renderItem={(tool) => tool}
               speed="slow"
@@ -335,6 +340,7 @@ const Index = () => {
                 delay={(index % 3) * 70}
                 className={cn(
                   "card min-h-[220px] gap-8",
+                  WIDE_STACK_GROUPS.has(group.label) && "lg:col-span-2",
                   // The one dark tile marks where most of the work sits.
                   group.label === "Backend" && "card-dark",
                 )}

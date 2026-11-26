@@ -101,6 +101,7 @@ const ProjectTile = ({
       <ProjectMock
         id={project.id}
         tone={dark ? "dark" : "light"}
+        detailed={showDetail}
         className={cn(
           "mt-auto pt-8",
           split &&

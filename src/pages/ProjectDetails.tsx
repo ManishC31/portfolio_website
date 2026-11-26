@@ -59,7 +59,12 @@ const ProjectDetails = () => {
             </div>
 
             {/* Renders nothing for a project without an illustration. */}
-            <ProjectMock id={project.id} framed className="mx-auto max-w-[440px]" />
+            <ProjectMock
+              id={project.id}
+              framed
+              detailed
+              className="mx-auto max-w-[440px]"
+            />
           </header>
 
           <div className="mt-[clamp(64px,9vw,112px)] border-b border-line">

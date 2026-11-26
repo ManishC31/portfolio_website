@@ -9,6 +9,8 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "shots": "node scripts/capture-shots.mjs",
+    "portrait": "node scripts/generate-portrait.mjs",
     "test": "vitest run",
     "test:watch": "vitest"
   },

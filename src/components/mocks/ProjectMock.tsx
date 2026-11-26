@@ -134,7 +134,21 @@ const InterviewMock = () => (
 
 const FILES = ["handbook.pdf", "policy.pdf", "terms.pdf"];
 
-const DocRagMock = () => (
+const EXCHANGES = [
+  {
+    question: "What is the notice period?",
+    answer: "Thirty days, given in writing.",
+    source: "handbook.pdf, p. 12",
+  },
+  {
+    question: "Who approves remote work?",
+    answer: "Your line manager, case by case.",
+    source: "policy.pdf, p. 3",
+  },
+];
+
+/** `detailed` adds a second exchange and the input row, for the large tile. */
+const DocRagMock = ({ detailed }: { detailed: boolean }) => (
   <MockWindow title="docrag / contracts">
     <div className="flex gap-3">
       <ul className="hidden w-[108px] shrink-0 flex-col gap-1.5 min-[420px]:flex">
@@ -153,16 +167,27 @@ const DocRagMock = () => (
       </ul>
 
       <div className="flex min-w-0 flex-1 flex-col gap-2">
-        <p className="ml-auto max-w-[88%] rounded-2xl rounded-br-md bg-ink px-3 py-2 text-[12.5px] leading-[1.4] text-white">
-          What is the notice period?
-        </p>
-        <div className="max-w-[94%] self-start rounded-2xl rounded-bl-md bg-surface px-3 py-2 text-[12.5px] leading-[1.45]">
-          Thirty days, given in writing.
-          <span className="mt-1.5 flex items-center gap-1 text-[10.5px] text-subtle">
-            <FileText size={10} strokeWidth={2} className="shrink-0" />
-            handbook.pdf, p. 12
-          </span>
-        </div>
+        {EXCHANGES.slice(0, detailed ? 2 : 1).map((exchange) => (
+          <div key={exchange.question} className="flex flex-col gap-2">
+            <p className="ml-auto max-w-[88%] rounded-2xl rounded-br-md bg-ink px-3 py-2 text-[12.5px] leading-[1.4] text-white">
+              {exchange.question}
+            </p>
+            <div className="max-w-[94%] self-start rounded-2xl rounded-bl-md bg-surface px-3 py-2 text-[12.5px] leading-[1.45]">
+              {exchange.answer}
+              <span className="mt-1.5 flex items-center gap-1 text-[10.5px] text-subtle">
+                <FileText size={10} strokeWidth={2} className="shrink-0" />
+                {exchange.source}
+              </span>
+            </div>
+          </div>
+        ))}
+
+        {detailed && (
+          <div className="mt-2 flex h-9 items-center rounded-full border border-line px-3.5 text-[12px] text-faint">
+            Ask about these documents
+            <span className="ml-0.5 h-3.5 w-px animate-blink bg-ink" />
+          </div>
+        )}
       </div>
     </div>
   </MockWindow>
@@ -332,24 +357,35 @@ const ExpressionMock = () => (
 
 /* ------------------------------------------------------------------ lookup */
 
+interface MockOptions {
+  tone: Tone;
+  detailed: boolean;
+}
+
 /** Keyed by Project.id. A project with no entry simply renders no visual. */
-const MOCKS: Record<string, (tone: Tone) => ReactNode> = {
+const MOCKS: Record<string, (options: MockOptions) => ReactNode> = {
   "ai-interview-platform": () => <InterviewMock />,
-  docrag: () => <DocRagMock />,
+  docrag: ({ detailed }) => <DocRagMock detailed={detailed} />,
   invoicer: () => <InvoiceMock />,
-  lumochat: (tone) => <ChatMock tone={tone} />,
+  lumochat: ({ tone }) => <ChatMock tone={tone} />,
   "expression-music-recommendation": () => <ExpressionMock />,
 };
 
 const ProjectMock = ({
   id,
   tone = "light",
+  detailed = false,
   framed = false,
   className,
 }: {
   id: string;
   /** The surface the mock sits on. Only LumoChat has a dark variant. */
   tone?: Tone;
+  /**
+   * Ask for the fuller version of the illustration, where one exists. For
+   * slots with room to fill: the large home page tile and the project page.
+   */
+  detailed?: boolean;
   /**
    * Stand the mock on its own grey panel, for use directly on the white page.
    * Inside a card, which is already that grey, leave this off.
@@ -365,7 +401,7 @@ const ProjectMock = ({
       aria-hidden="true"
       className={cn("pointer-events-none select-none", className)}
     >
-      {render(tone)}
+      {render({ tone, detailed })}
     </div>
   );
 

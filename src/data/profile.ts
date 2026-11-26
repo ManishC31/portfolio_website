@@ -1,7 +1,9 @@
 export const profile = {
   name: "Manish Chavan",
   role: "Full-stack Software Engineer",
-  location: "Berlin, Germany",
+  // The country only. Manish is not in Berlin (confirmed August 2026); his
+  // employer is Berlin-based, which the copy below says where it is relevant.
+  location: "Germany",
   email: "manishchavan80@gmail.com",
   // Lowercase deliberately: this is the path git tracks and the URL the
   // previous site already published. A case-sensitive host would 404 on any
@@ -34,13 +36,13 @@ export const profile = {
       text: "At Assesshub I led the team and owned each product from architecture through deployment.",
       facts: [
         { value: "2–4", label: "engineers led" },
-        { value: "3+", label: "full-stack products owned" },
+        { value: "3", label: "full-stack products owned" },
         { value: "End to end", label: "architecture through deployment" },
       ],
     },
     now: {
       label: "Right now",
-      headline: "Werkstudent at Absora GmbH in Berlin.",
+      headline: "Werkstudent at Absora GmbH, based in Berlin.",
       items: [
         "Odoo ERP integration",
         "The company's web presence",
@@ -113,14 +115,63 @@ export const stats = [
   },
 ] as const;
 
-// Only tools evidenced by the CV or by a shipped project in projects.ts.
-// Redis and the Odoo/GenAI/SEO group arrived with the Jul 2026 CV. GraphQL,
-// TensorFlow, OpenAI API, Prompt Engineering and Vercel are still absent from
-// it and stay out. Re-add here only alongside a CV update.
+/*
+ * What I can be handed on day one.
+ *
+ * Not rendered at present. The August 2026 design showed these four cards
+ * under the hero in place of the figures in `stats`, on the argument that
+ * monthly actives and uptime describe an employer's product rather than an
+ * engineer's ability. The current design shows the figures. These are kept so
+ * that panel can be switched back without rewriting the copy.
+ */
+export const capabilities = [
+  {
+    icon: "stack",
+    title: "Full stack delivery",
+    detail:
+      "React and Next.js on top, Node.js and FastAPI underneath. Empty repository to something running in production.",
+  },
+  {
+    icon: "data",
+    title: "APIs and data",
+    detail:
+      "REST API design, PostgreSQL and MongoDB schemas, and the indexes and caching that keep them quick as they grow.",
+  },
+  {
+    icon: "ai",
+    title: "Generative AI",
+    detail:
+      "Retrieval pipelines with LangChain and LangGraph, and the work of making model output dependable enough to ship.",
+  },
+  {
+    icon: "ship",
+    title: "Shipping and running it",
+    detail:
+      "Docker, CI/CD and Azure, plus the logging and monitoring that tell you something is wrong before a user does.",
+  },
+] as const;
+
+/*
+ * Tools evidenced by the CV, by a shipped project in projects.ts, or confirmed
+ * directly by Manish. The AI group is the last kind: LangChain is already in
+ * DocRAG's stack, and the rest were added on his say-so in August 2026. Worth
+ * getting them onto the CV too, so both documents agree.
+ */
 export const stack = [
   {
     label: "Languages",
     items: ["TypeScript", "JavaScript", "Python"],
+  },
+  {
+    label: "AI",
+    items: [
+      "LangChain",
+      "LangGraph",
+      "RAG pipelines",
+      "Vector databases",
+      "Embeddings",
+      "Prompt engineering",
+    ],
   },
   {
     label: "Frontend",
@@ -143,3 +194,10 @@ export const stack = [
     items: ["Odoo (ERP)", "Generative AI tooling", "SEO"],
   },
 ] as const;
+
+/**
+ * Flattened for the marquee, which wants one continuous run of names rather
+ * than the labelled groups the Stack section renders. Derived, so the two can
+ * never disagree.
+ */
+export const allTools = stack.flatMap((group) => [...group.items]);
